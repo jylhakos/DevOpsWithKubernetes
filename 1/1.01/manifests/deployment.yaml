@@ -1,0 +1,17 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: hash_and_time
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: hash_and_time
+  template:
+    metadata:
+      labels:
+        app: hash_and_time
+    spec:
+      containers:
+        - name: hash_and_time
+          image: <USER-NAME>/dwk-app1:852e28412548
