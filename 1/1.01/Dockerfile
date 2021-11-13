@@ -1,3 +1,5 @@
+# $ docker tag <IMAGE_ID> <USER_NAME>/<IMAGE_ID>
+$ $ docker push <USER_NAME>/<IMAGE_ID>
 # $ docker build -t <USER_NAME>/app-0:1.01 .
 # $ docker run -d --name <CONTAINER_NAME> <USER_NAME>/app-0:1.01
 # $ docker exec -it <IMAGE_ID> /bin/sh

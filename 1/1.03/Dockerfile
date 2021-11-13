@@ -1,6 +1,6 @@
-# $ docker build -t jylhakos/app-1:1.03 .
-# $ docker run -d --name app-1 jylhakos/app-1
-# $ docker exec -it app-1 /bin/sh
+# $ docker build -t jylhakos/app-0:1.03 .
+# $ docker run -d --name app-0 jylhakos/app-0
+# $ docker exec -it app-0 /bin/sh
 # /usr/src/app # ps -ef
 # $ docker container ls
 # $ docker images
@@ -9,11 +9,10 @@
 # $ docker rmi $(docker images -q)
 # $ docker rm $(docker ps -a -q)
 # $ docker login
-# $ docker push jylhakos/app-1:1.03
-# $ kubectl create deployment app-1 --image=test/app-1:1.03
+# $ docker push jylhakos/app-0:1.03
+# $ kubectl create deployment app-0-dep --image=jylhakos/app-0:1.03
 # $ kubectl get deployments
-# $ kubectl logs app-1
-# $ kubectl delete deployment app-1
+# $ kubectl delete deployment app-0
 # $ kubectl apply -f manifests/deployment.yaml
 # $ kubectl delete -f manifests/deployment.yaml
 
