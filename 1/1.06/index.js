@@ -31,9 +31,6 @@ app.use((ctx) => {
 		case "/":
 			ctx.body = `<h1>${new Date().toISOString()}:${startingString}:${stringNow}</h1>`
 			break;
-		case "/pingpong":
-			ctx.body = `<h1>0</h1>`
-			break;
 		default:
 			ctx.body = `<h1>404 Not Found.</h1>`
 
