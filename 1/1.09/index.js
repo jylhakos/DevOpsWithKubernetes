@@ -14,7 +14,7 @@ const app = new Koa()
 
 const router = new Router()
 
-const counter = 0
+var counter = 0
 
 app
   .use(bodyParser())
@@ -25,6 +25,7 @@ app.use((ctx) => {
 
 	switch (ctx.url) {
 		case "/pingpong":
+			console.log("pong " + counter)
 			ctx.body = `<h1>pong ${counter}</h1>`
 			counter = counter + 1
 			break;
