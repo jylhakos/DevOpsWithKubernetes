@@ -1,8 +1,8 @@
 const getHashNow = () => {
   
-  const randomHash = Math.random().toString(36).substr(2, 6)
+  const randomhash = Math.random().toString(36).substr(2, 6)
 
-  return randomHash
+  return randomhash
 
   //setTimeout(getHashNow, 5000)
 }
@@ -19,4 +19,4 @@ const loop = () => {
 
 }
 
-loop(randomhash)
+loop()
