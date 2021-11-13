@@ -3,12 +3,9 @@ kind: Service
 metadata:
   name: app-1-svc
 spec:
-  type: NodePort
+  type: ClusterIP
   selector:
     app: app-1
   ports:
-    - name: http
-      nodePort: 30080
-      protocol: TCP
-      port: 1234
+    - port: 2345
       targetPort: 3000

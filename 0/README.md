@@ -16,6 +16,16 @@ k8s
 
 https://kubernetes.io/docs/tasks/tools/install-kubectl-linux/
 
+How to install kubectl?
+
+$ stable=$(curl -s https://storage.googleapis.com/kubernetes-release/release/stable.txt)
+
+$ curl -LO https://storage.googleapis.com/kubernetes-release/release/${stable}/bin/linux/amd64/kubectl
+
+$ chmod +x ./kubectl
+
+$ sudo mv ./kubectl /usr/local/bin/kubectl
+
 kubectl
 
 $ kubectl cluster-info

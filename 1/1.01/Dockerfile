@@ -10,6 +10,7 @@ $ $ docker push <USER_NAME>/<IMAGE_ID>
 # $ docker container ls
 # $ docker images
 # $ docker inspect <IMAGE_ID>
+# $ k3d cluster create -a 2
 # $ kubectl create deployment app-0 --image=<USER_NAME>/app-0:1.01
 
 FROM node:alpine

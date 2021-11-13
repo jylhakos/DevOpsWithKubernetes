@@ -2,8 +2,9 @@
 # $ docker run -d -p 3000:3000 --name app-1 <USER_NAME>/app-1:1.08
 # $ k3d cluster delete
 # $ k3d cluster create --port 8082:30080@agent:0 -p 8081:80@loadbalancer --agents 2
-# $ kubectl apply -f manifests/service.yaml
-# http://localhost:8082
+# $ kubectl delete -f manifests/
+# $ kubectl apply -f manifests/
+# http://localhost:8081
 
 FROM node:alpine
 

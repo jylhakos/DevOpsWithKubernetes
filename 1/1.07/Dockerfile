@@ -1,6 +1,6 @@
 # $ docker build -t <USER_NAME>/app-0:1.07 .
 # $ docker run -d -p 3000:3000 --name app-1 <USER_NAME>/app-0:1.07
-# $ kubectl delete -f app1-6/manifests/service.yaml
+# $ kubectl delete -f manifests/
 # $ kubectl apply -f manifests/
 # $ kubectl get svc
 # $ kubectl get ing

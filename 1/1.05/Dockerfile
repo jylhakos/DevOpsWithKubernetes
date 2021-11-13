@@ -5,10 +5,10 @@
 # $ kubectl create deployment app-1 --image=<USER_NAME>/app-1:1.05
 # $ kubectl get deployments
 # $ kubectl delete deployment app-1
-# $ kubectl apply -f manifests/deployment.yaml
 # $ kubectl delete -f manifests/deployment.yaml
-# $ kubectl get po
-# $ kubectl port-forward app-1:1.05 3003:3000
+# $ kubectl apply -f manifests/deployment.yaml
+# $ kubectl get pods
+# $ kubectl port-forward <PODS_NAME> 3003:3000
 # http://localhost:3003
 
 FROM node:alpine
