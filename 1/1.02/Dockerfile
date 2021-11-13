@@ -13,7 +13,6 @@
 # $ docker push <USER_NAME>/app-1:1.02
 # $ kubectl create deployment app-1 --image=<USER_NAME>/app-1:1.02
 # $ kubectl get deployments
-# $ kubectl logs app-1
 # $ kubectl delete deployment app-1
 # $ kubectl apply -f manifests/deployment.yaml
 # $ kubectl delete -f manifests/deployment.yaml

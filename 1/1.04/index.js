@@ -11,3 +11,5 @@ const startingString = createRandomString()
 app.listen(PORT)
 
 console.log(`Server started in port ${PORT}`)
+
+console.log(startingString)
