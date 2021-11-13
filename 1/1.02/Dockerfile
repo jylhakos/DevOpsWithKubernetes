@@ -1,5 +1,6 @@
-# $ docker build -t jylhakos/app-1:1.02 .
-# $ docker run -d --name app-1 jylhakos/app-1
+# $ npm install 
+# $ docker build -t <USER_NAME>/app-1:1.02 .
+# $ docker run -d --name app-1 <USER_NAME>/app-1
 # $ docker exec -it app-1 /bin/sh
 # /usr/src/app # ps -ef
 # $ docker container ls
@@ -9,8 +10,8 @@
 # $ docker rmi $(docker images -q)
 # $ docker rm $(docker ps -a -q)
 # $ docker login
-# $ docker push jylhakos/app-1:1.02
-# $ kubectl create deployment app-1 --image=test/app-1:1.02
+# $ docker push <USER_NAME>/app-1:1.02
+# $ kubectl create deployment app-1 --image=<USER_NAME>/app-1:1.02
 # $ kubectl get deployments
 # $ kubectl logs app-1
 # $ kubectl delete deployment app-1
