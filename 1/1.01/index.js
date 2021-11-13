@@ -7,16 +7,16 @@ const getHashNow = () => {
   //setTimeout(getHashNow, 5000)
 }
 
-const rh = getHashNow()
+const randomhash = getHashNow()
 
 const loop = () => {
 
   const timestamp = new Date().toISOString()
 
-  console.log(rh + ' ' + timestamp)
+  console.log(timestamp + ' ' + randomhash)
 
   setTimeout(loop, 5000)
 
 }
 
-loop(rh)
+loop(randomhash)
