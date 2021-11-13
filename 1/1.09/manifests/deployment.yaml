@@ -1,17 +1,17 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: app-0-dep
+  name: app-2-dep
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app: app-0
+      app: app-2
   template:
     metadata:
       labels:
-        app: app-0
+        app: app-2
     spec:
       containers:
-        - name: app-0
-          image: jylhakos/app-0:1.07
+        - name: app-2
+          image: jylhakos/app-2:1.09

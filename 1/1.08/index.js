@@ -31,15 +31,28 @@ app.use((ctx) => {
 		case "/":
 			ctx.body = `<h1>${new Date().toISOString()}:${startingString}:${stringNow}</h1>`
 			break;
-		case "/pingpong":
-			ctx.body = `<h1>0</h1>`
-			break;
 		default:
-			ctx.body = `<h1>404 Not Found.</h1>`
+			ctx.body = `<h1>Error 404 - Page Not Found.</h1>`
 
 	console.log(ctx.body)
   }
 })
+
+/*router.get('/', async ctx => {
+
+	const stringNow = createRandomString()
+
+	ctx.type = 'text/plain; charset=utf-8';
+
+    ctx.body = 
+    `<h1>${startingString}</h1>
+    <h2>${startingString}</h2>
+    <h3>${stringNow}</h3>
+	<h4>${new Date().toISOString()}</h4>`
+
+    console.log(ctx.body)
+
+})*/
 
 app.listen(PORT)
 

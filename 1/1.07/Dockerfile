@@ -1,5 +1,5 @@
-# $ docker build -t test/app-1:1.07 .
-# $ docker run -d -p 3000:3000 --name app-1 test/app-1:1.07
+# $ docker build -t test/app-0:1.07 .
+# $ docker run -d -p 3000:3000 --name app-1 test/app-0:1.07
 # $ kubectl delete -f app1-6/manifests/service.yaml
 # $ kubectl apply -f manifests/
 # $ kubectl get svc

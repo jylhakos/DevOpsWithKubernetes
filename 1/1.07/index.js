@@ -10,7 +10,7 @@ let timestamp = 0
 
 let randomhash = 0
 
-const timestamp_randomhash = () => {
+const generateContext = () => {
   
   timestamp = new Date().toISOString()
 
@@ -26,11 +26,8 @@ app.use((ctx) => {
     case "/":
       ctx.body = `<h1>${timestamp}:${randomhash}</h1>`
       break;
-    case "/pingpong":
-      ctx.body = `<h1>0</h1>`
-      break;
     default:
-      ctx.body = `<h1>404 Not Found.</h1>`
+      ctx.body = `<h1>Error 404 - Page Not Found.</h1>`
 
   console.log(ctx.body)
   }
@@ -38,7 +35,7 @@ app.use((ctx) => {
 
 const loop = () => {
 
-  timestamp_randomhash()
+  generateContext()
 
   setTimeout(loop, 5000)
 }

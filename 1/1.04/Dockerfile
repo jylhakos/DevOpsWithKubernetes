@@ -6,6 +6,7 @@
 # $ kubectl delete deployment app-1
 # $ kubectl apply -f manifests/deployment.yaml
 # $ kubectl delete -f manifests/deployment.yaml
+# $ kubectl describe pod <POD_NAME>
 
 FROM node:alpine
 
