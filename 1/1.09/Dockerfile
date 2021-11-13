@@ -1,5 +1,5 @@
-# $ docker build -t test/app-2:1.09 .
-# $ docker run -d -p 3001:3000 --name app-1 test/app-2:1.09
+# $ docker build -t <USER_NAME>/app-2:1.09 .
+# $ docker run -d -p 3001:3000 --name app-1 <USER_NAME>/app-2:1.09
 # $ kubectl delete -f manifests/service.yaml
 # $ kubectl apply -f manifests/service.yaml
 # $ kubectl create deployment app-0 --image=<USER_ID>/app-0:1.07
