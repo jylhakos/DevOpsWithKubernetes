@@ -1,16 +1,16 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: app-2-shared-dep
+  name: app-0-2-shared-dep
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app: app-2-shared
+      app: app-0-2-shared
   template:
     metadata:
       labels:
-        app: app-2-shared
+        app: app-0-2-shared
     spec:
       volumes:
         - name: shared-text

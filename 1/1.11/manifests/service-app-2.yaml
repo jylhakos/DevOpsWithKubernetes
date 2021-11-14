@@ -5,7 +5,7 @@ metadata:
 spec:
   type: ClusterIP
   selector:
-    app: app-2-shared
+    app: app-0-2-shared
   ports:
     - port: 2345
       protocol: TCP
