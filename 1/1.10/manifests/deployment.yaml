@@ -1,0 +1,28 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: app-0-shared-dep
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: app-0-shared
+  template:
+    metadata:
+      labels:
+        app: app-0-shared
+    spec:
+      volumes:
+        - name: shared-text
+          emptyDir: {}
+      containers:
+        - name: app-0-writer
+          image: jylhakos/app-0-writer:latest
+          volumeMounts:
+          - name: shared-text
+            mountPath: /usr/src/app/files
+        - name: app-0-reader
+          image: jylhakos/app-0-reader:latest
+          volumeMounts:
+          - name: shared-text
+            mountPath: /usr/src/app/files
