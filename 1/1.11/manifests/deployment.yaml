@@ -1,0 +1,29 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: app-2-shared-dep
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: app-2-shared
+  template:
+    metadata:
+      labels:
+        app: app-2-shared
+    spec:
+      volumes:
+        - name: shared-text
+          persistentVolumeClaim:
+            claimName: shared-claim
+      containers:
+        - name: app-shared-2
+          image: jylhakos/app-shared-2:latest
+          volumeMounts:
+          - name: shared-text
+            mountPath: /usr/src/app/files
+        - name: app-shared-0
+          image: jylhakos/app-shared-0:latest
+          volumeMounts:
+          - name: shared-text
+            mountPath: /usr/src/app/files
