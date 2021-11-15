@@ -1,0 +1,28 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: images-dep
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: images
+  template:
+    metadata:
+      labels:
+        app: images
+    spec:
+      volumes:
+        - name: shared-image
+          emptyDir: {}
+      containers:
+        - name: image-finder
+          image: jylhakos/dwk-app3-image-finder
+          volumeMounts:
+          - name: shared-image
+            mountPath: /usr/src/app/files
+        - name: image-response
+          image: jylhakos/dwk-app3-image-response
+          volumeMounts:
+          - name: shared-image
+            mountPath: /usr/src/app/files
