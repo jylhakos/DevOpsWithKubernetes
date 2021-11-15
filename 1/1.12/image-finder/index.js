@@ -1,3 +1,5 @@
+// $ sudo chmod 777 -R /usr/src/app/files
+
 const Koa = require('koa')
 
 const path = require('path')
@@ -26,6 +28,8 @@ const fileAlreadyExists = async () => new Promise(res => {
 
 const findAFile = async () => {
 
+  console.log('findAFile')
+
   if (await fileAlreadyExists()) return
 
   await new Promise(res => fs.mkdir(directory, (err) => res()))
@@ -33,6 +37,7 @@ const findAFile = async () => {
   const response = await axios.get('https://picsum.photos/1200', { responseType: 'stream' })
 
   response.data.pipe(fs.createWriteStream(filePath))
+
 }
 
 const removeFile = async () => new Promise(res => fs.unlink(filePath, (err) => res()))
@@ -46,6 +51,7 @@ app.use(async ctx => {
   findAFile()
 
   ctx.status = 200
+
 });
 
 findAFile()

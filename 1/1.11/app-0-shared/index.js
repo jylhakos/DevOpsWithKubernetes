@@ -37,7 +37,7 @@ const getContent = async () => new Promise(response => {
 
     const content = `<h1>${timestamp} : ${stringNow} : ${data}</h1>`
 
-    console.log(content)
+    //console.log(content)
 
     response(content)
 

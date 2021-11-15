@@ -17,13 +17,13 @@ spec:
           persistentVolumeClaim:
             claimName: shared-claim
       containers:
-        - name: app-shared-2
-          image: jylhakos/app-shared-2:latest
+        - name: app-2-shared
+          image: jylhakos/app-2-shared
           volumeMounts:
           - name: shared-text
             mountPath: /usr/src/app/files
-        - name: app-shared-0
-          image: jylhakos/app-shared-0:latest
+        - name: app-0-shared
+          image: jylhakos/app-0-shared
           volumeMounts:
           - name: shared-text
             mountPath: /usr/src/app/files

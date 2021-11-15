@@ -5,7 +5,7 @@
 # $ kubectl apply -f manifests/
 # $ kubectl get svc
 # $ kubectl get ing
-# http://localhost:8081
+# http://localhost:8081/
 
 FROM node:alpine
 

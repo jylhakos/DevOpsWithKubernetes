@@ -11,8 +11,8 @@
 # $ kubectl apply -f manifests/
 # $ kubectl get svc
 # $ kubectl get ing
+# $ kubectl get pods
 # http://localhost:8082/pingpong
-
 
 FROM node:alpine
 
@@ -20,7 +20,7 @@ WORKDIR /usr/src/app
 
 COPY package* ./
 
-RUN npm install --unsafe-perm=true
+RUN npm ci
 
 COPY . .
 

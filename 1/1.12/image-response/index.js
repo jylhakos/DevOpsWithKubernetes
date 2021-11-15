@@ -4,6 +4,8 @@ const path = require('path')
 
 const fs = require('fs')
 
+const mime = require('mime-types')
+
 const app = new Koa()
 
 const PORT = process.env.PORT || 3000
@@ -13,6 +15,8 @@ const directory = path.join('/', 'usr', 'src', 'app', 'files')
 const filePath = path.join(directory, 'image.jpg')
 
 const getFile = async () => new Promise(res => {
+
+  console.log('getFile: ' + filePath)
 
   fs.readFile(filePath, (err, buffer) => {
 
@@ -28,9 +32,13 @@ app.use(async ctx => {
 
   ctx.body = await getFile()
 
-  ctx.set('Content-disposition', 'attachment; filename=image.jpg');
-
-  ctx.set('Content-type', 'image/jpeg');
+  var mimeType = mime.lookup(filePath)
+        
+  const src = fs.createReadStream(filePath)
+        
+  ctx.response.set("content-type", mimeType)
+        
+  ctx.body = src
 
   ctx.status = 200
 });

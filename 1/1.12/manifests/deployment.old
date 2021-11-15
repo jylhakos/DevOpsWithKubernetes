@@ -14,8 +14,7 @@ spec:
     spec:
       volumes:
         - name: shared-image
-          persistentVolumeClaim:
-            claimName: image-claim
+          emptyDir: {}
       containers:
         - name: image-finder
           image: jylhakos/dwk-app3-image-finder

@@ -56,22 +56,24 @@ app.use((ctx) => {
 			
 			counter = counter + 1
 
-			fs.writeFile(filePath, counter, error => {
+			fs.writeFile(filePath, parseInt(counter, 10).toString(), error => {
 
 	    	if (error) {
 
-	      	console.error(error)
+	      	console.error('writeFile: ', error)
 	    	}
 
   		})
 
 			ctx.body = `<h1>pong ${counter}</h1>`
+
+			//console.error(ctx.body)
 			
 			break;
 		default:
 			ctx.body = `<h1>Error 404 - Page Not Found.</h1>`
 
-	console.log(ctx.body)
+	//console.log(ctx.body)
 
   }
 })

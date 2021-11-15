@@ -1,3 +1,4 @@
+# $ sudo chmod 777 -R /usr/src/app/files
 # $ docker build -t <USER_NAME>/dwk-app3-image-finder .
 # $ docker push <USER_NAME>//dwk-app3-image-finder:tagname
 # $ k3d cluster delete
@@ -8,6 +9,7 @@
 # $ kubectl apply -f manifests/
 # $ kubectl get svc
 # $ kubectl get ing
+# # $ kubectl logs <POD_NAME> -c image-finder
 
 FROM node:alpine
 
@@ -16,6 +18,8 @@ WORKDIR /usr/src/app
 COPY package* ./
 
 RUN npm ci
+
+RUN mkdir /usr/src/app/files && chmod -R 777 /usr/src/app/files
 
 COPY . .
 
