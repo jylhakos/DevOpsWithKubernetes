@@ -14,15 +14,16 @@ spec:
     spec:
       volumes:
         - name: shared-image
-          emptyDir: {}
+          persistentVolumeClaim:
+            claimName: image-claim
       containers:
         - name: image-finder
-          image: jylhakos/dwk-app3-image-finder
+          image: jylhakos/app-image-finder
           volumeMounts:
           - name: shared-image
             mountPath: /usr/src/app/files
         - name: image-response
-          image: jylhakos/dwk-app3-image-response
+          image: jylhakos/app-image-response
           volumeMounts:
           - name: shared-image
             mountPath: /usr/src/app/files
