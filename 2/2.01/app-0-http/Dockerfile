@@ -1,6 +1,6 @@
-# $ docker build -t <USER_NAME>/app-0-shared .
-# $ docker push <USER_NAME>/app-0-shared:tagname
-# $ docker pull docker.io/<USER_NAME>/app-0-shared
+# $ docker build -t <USER_NAME>/app-0-http .
+# $ docker push <USER_NAME>/app-0-http:tagname
+# $ docker pull docker.io/<USER_NAME>/app-0-http
 # $ kubectl delete -f manifests/
 # $ kubectl apply -f manifests/
 # $ kubectl get svc

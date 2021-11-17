@@ -1,9 +1,9 @@
 # $ sudo apt-get upgrade docker-ce
 # $ sudo systemctl restart docker.service
 # $ sudo chown -R $USER:$USER /usr/src/app/files
-# $ docker build -t <USER_NAME>/app-2-shared .
-# $ docker push <USER_NAME>/app-2-shared
-# $ docker pull docker.io/<USER_NAME>/app-2-shared
+# $ docker build -t <USER_NAME>/app-2-http .
+# $ docker push <USER_NAME>/app-2-http
+# $ docker pull docker.io/<USER_NAME>/app-2-http
 # $ k3d cluster delete
 # $ k3d cluster create --port 8082:30080@agent:0 -p 8081:80@loadbalancer --agents 2
 # $ kubectl cluster-info
