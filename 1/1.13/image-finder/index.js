@@ -67,6 +67,8 @@ app.use(async ctx => {
 
   await findAFile()
 
+  console.log('status', ctx.status)
+
   ctx.status = 200
 
 });

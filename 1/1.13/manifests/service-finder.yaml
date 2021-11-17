@@ -1,0 +1,14 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: image-finder-svc
+spec:
+  type: NodePort
+  selector:
+    app: images
+  ports:
+    - name: http
+      nodePort: 30080
+      protocol: TCP
+      port: 2346
+      targetPort: 3001

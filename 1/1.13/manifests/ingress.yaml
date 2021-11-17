@@ -10,13 +10,6 @@ spec:
         pathType: Prefix
         backend:
           service:
-            name: image-svc
-            port: 
-              number: 2345
-      - path: /
-        pathType: Prefix
-        backend:
-          service:
-            name: image-svc
+            name: image-response-svc
             port: 
               number: 2345
