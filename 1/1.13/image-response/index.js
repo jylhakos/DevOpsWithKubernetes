@@ -20,6 +20,8 @@ const directory = path.join('/', 'usr', 'src', 'app', 'files')
 
 const file_path = path.join(directory, 'image.jpg')
 
+const PERIOD = (1000 * 60 * 60 * 24) + (1000 * 60)
+
 app.use(serve('public'))
 
 app.use(bodyParser());
@@ -63,8 +65,7 @@ app.use(async (ctx) => {
                  <li>Todo B</li>
               </ul>
           </div>
-
-            <script>
+          <script>
 
             var clickFunction = function(event) {
 
@@ -101,14 +102,9 @@ app.use(async (ctx) => {
             
             const btn = document.getElementById('add_todo');
 
-            console.log('btn', btn)
-
             if (btn) {
-
               btn.addEventListener('click', clickFunction);
-
             }
-
           </script>
         </body>
       </html>
@@ -126,7 +122,15 @@ app.use(async (ctx) => {
 
 })
 
-copy()
+function updateFile() {
+
+  console.log('updateFile')
+
+  copy()
+
+}
+
+setInterval(updateFile, PERIOD)
 
 app.listen(PORT)
 

@@ -1,0 +1,22 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: app-0-2-http-ing
+spec:
+  rules:
+  - http:
+      paths:
+      - path: /
+        pathType: Prefix
+        backend:
+          service:
+            name: app-0-http-svc
+            port:
+              number: 2345
+      - path: /pingpong
+        pathType: Prefix
+        backend:
+          service:
+            name: app-2-http-svc
+            port:
+              number: 2345

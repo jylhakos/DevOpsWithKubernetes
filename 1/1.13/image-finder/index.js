@@ -14,7 +14,9 @@ const PORT = process.env.PORT || 3001
 
 const directory = path.join('/', 'usr', 'src', 'app', 'files')
 
-//const directory = './public'
+const PERIOD = 1000 * 60 * 60 * 24
+
+const DELAY = 1000 * 30
 
 const filePath = path.join(directory, 'image.jpg')
 
@@ -51,11 +53,21 @@ const findAFile = async () => {
 
 const removeFile = async () => { new Promise(res => {
 
-    fs.unlink(filePath, (err) => { res()
+    console.log('removeFile')
 
-      console.log('unlink')
+    try {
 
-    })
+      fs.unlink(filePath, (err) => { res()
+
+        console.log('unlink')
+
+      })
+
+    } catch (error) {
+
+      console.error(error)
+    }
+
   })
 }
 
@@ -65,7 +77,7 @@ app.use(async ctx => {
   
   await removeFile()
 
-  await findAFile()
+  setTimeout(await findAFile, MINUTE)
 
   console.log('status', ctx.status)
 
@@ -73,11 +85,19 @@ app.use(async ctx => {
 
 });
 
-removeFile()
+const updateFile = async () => {
 
-findAFile()
+  console.log('updateFile')
+  
+  await removeFile()
+
+  setTimeout(await findAFile, DELAY)
+
+}
+
+setInterval(updateFile, PERIOD)
 
 app.listen(PORT)
 
-console.log('Image-Finder Started: ' + PORT)
+console.log('image-finder started: ' + PORT)
 
