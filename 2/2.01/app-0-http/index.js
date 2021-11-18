@@ -12,13 +12,15 @@ const http = require('http')
 
 const options = {
   hostname: 'localhost',
-  port: 3001,
-  //port: 8080,
+  //port: 3001,
+  port: 8081,
   path: '/',
   method: 'GET'
 }
 
 const getContent = async () => new Promise(result => {
+
+    console.log('getContent', options)
 
     var counter = null
 
@@ -53,7 +55,11 @@ const getContent = async () => new Promise(result => {
 
 })
 
+const hash_string = Math.random().toString(36).substr(2, 6)
+
 app.use(async ctx => {
+
+  console.log('ctx')
 
   if (ctx.path.includes('favicon.ico')) return
 
@@ -63,7 +69,7 @@ app.use(async ctx => {
 
   const timestamp = new Date().toISOString()
 
-  ctx.body = `<h1>${timestamp} : ${counter}</h1>`
+  ctx.body = `<h1>${timestamp} : ${hash_string} : ${counter}</h1>`
 
   console.log('ctx.body', ctx.body)
 

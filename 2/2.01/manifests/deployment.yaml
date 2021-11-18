@@ -13,7 +13,7 @@ spec:
         app: app-0-2-http
     spec:
       containers:
-        - name: app-2-http
-          image: jylhakos/app-2-http
         - name: app-0-http
           image: jylhakos/app-0-http
+        - name: app-2-http
+          image: jylhakos/app-2-http
