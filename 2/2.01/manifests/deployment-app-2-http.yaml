@@ -1,19 +1,20 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: app-0-2-http-dep
+  name: app-2-http-dep
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app: app-0-2-http
+      app: app-2-http
   template:
     metadata:
       labels:
-        app: app-0-2-http
+        app: app-2-http
     spec:
       containers:
-        - name: app-0-http
-          image: jylhakos/app-0-http
         - name: app-2-http
           image: jylhakos/app-2-http
+          ports:
+          - containerPort: 3001
+            name: app-2-http

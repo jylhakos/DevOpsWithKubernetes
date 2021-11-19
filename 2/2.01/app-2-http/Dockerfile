@@ -2,6 +2,7 @@
 # $ sudo systemctl restart docker.service
 # $ sudo chown -R $USER:$USER /usr/src/app/files
 # $ docker build -t <USER_NAME>/app-2-http .
+# $ docker run -p 3001:3001 --name app-2-http <USER_NAME>/app-2-http 
 # $ docker push <USER_NAME>/app-2-http
 # $ docker pull docker.io/<USER_NAME>/app-2-http
 # $ docker info | grep -i cgroup
@@ -16,9 +17,11 @@
 # $ kubectl get ing
 # $ kubectl get pods
 # $ kubectl get nodes
+# $ kubectl get svc --all-namespaces
 # $ kubectl describe deployment app-0-2-http-dep
 # $ kubectl logs <POD_NAME> -c app-2-http
 # $ kubectl describe pod <POD_NAME>
+# $ kubectl port-forward <POD_NAME> 8081:3001
 # http://localhost:8081/pingpong
 
 FROM node:alpine
@@ -31,6 +34,6 @@ RUN npm ci
 
 COPY . .
 
-RUN mkdir /usr/src/app/files && chmod -R 777 /usr/src/app/files
+EXPOSE 3001
 
 CMD ["npm", "start"]

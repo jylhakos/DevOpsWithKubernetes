@@ -47,12 +47,12 @@ app.use((ctx) => {
 
 		case "/pingpong":
 
-			console.log("pong " + counter)
-			
 			counter = counter + 1
 
 			ctx.body = `<h1>pong ${counter}</h1>`
 
+			console.log("pong " + counter)
+			
 			break;
 
 		default:

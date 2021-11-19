@@ -10,17 +10,17 @@ const PORT = process.env.PORT || 3000
 
 const http = require('http')
 
+// k8s networking
 const options = {
-  hostname: 'localhost',
+  hostname: 'example-service',
+  //hostname: 'localhost',
+  port: 80,
   //port: 3001,
-  port: 8081,
   path: '/',
   method: 'GET'
 }
 
 const getContent = async () => new Promise(result => {
-
-    console.log('getContent', options)
 
     var counter = null
 
@@ -58,8 +58,6 @@ const getContent = async () => new Promise(result => {
 const hash_string = Math.random().toString(36).substr(2, 6)
 
 app.use(async ctx => {
-
-  console.log('ctx')
 
   if (ctx.path.includes('favicon.ico')) return
 

@@ -5,8 +5,8 @@ metadata:
 spec:
   type: ClusterIP
   selector:
-    app: app-0-2-http
+    app: app-2-http
   ports:
-    - port: 2346
+    - port: 80
       protocol: TCP
       targetPort: 3001
