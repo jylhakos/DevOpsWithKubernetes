@@ -77,7 +77,7 @@ app.use(async ctx => {
   
   await removeFile()
 
-  setTimeout(await findAFile, MINUTE)
+  setTimeout(await findAFile, DELAY)
 
   console.log('status', ctx.status)
 

@@ -1,16 +1,16 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: todos-dep
+  name: todos-frontend-dep
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app: todos
+      app: todos-frontend
   template:
     metadata:
       labels:
-        app: todos
+        app: todos-frontend
     spec:
       volumes:
         - name: shared-image
@@ -27,5 +27,3 @@ spec:
           volumeMounts:
           - name: shared-image
             mountPath: /usr/src/app/files
-        - name: todo-backend
-          image: jylhakos/todo-backend

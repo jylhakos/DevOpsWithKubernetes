@@ -2,16 +2,27 @@
 
 const axios = require('axios')
 
-const url = 'backend-service/todos'
+//const url = 'http://localhost:3002/todos'
+
+const url = 'http://backend-service/todos'
 
 const get = () => {
 
-  const request = axios.get(url)
+  console.log('get', url)
+
+  const request = axios({
+    url: url,
+    method: 'get'
+  })
+
+  //const request = axios.get(url)
 
   return request.then(response => response.data)
 }
 
 const create = todo => {
+
+  console.log('create', todo)
 
   const request = axios.post(url, todo)
 
@@ -20,12 +31,16 @@ const create = todo => {
 
 const update = (id, todo) => {
 
+  console.log('update', id)
+
   const request = axios.put(`${url}/${id}`, todo)
 
   return request.then(response => response.data)
 }
 
 const remove = (id) => {
+
+  console.log('remove', id)
 
   const request = axios.delete(`${url}/${id}`)
 

@@ -5,7 +5,7 @@ metadata:
 spec:
   type: ClusterIP
   selector:
-    app: todos
+    app: todos-frontend
   ports:
     - port: 2345
       protocol: TCP

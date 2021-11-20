@@ -1,3 +1,5 @@
+# $ docker build -t <USER_NAME>/todo-backend .
+
 FROM node:alpine
 
 WORKDIR /usr/src/app

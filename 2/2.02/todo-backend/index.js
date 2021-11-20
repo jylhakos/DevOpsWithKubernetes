@@ -38,12 +38,18 @@ var todos = [
   }
 ]
 
-app.get('/', (req, res) => {
-  res.send('<h1>TODO</h1>')
+app.get('/', (request, response) => {
+
+  console.log('GET /')
+
+  response.send('<h1>TODO</h1>')
 })
 
-app.get('/todos', (req, res) => {
-  res.json(todos)
+app.get('/todos', (request, response) => {
+
+  console.log('GET /todos')
+
+  response.json(todos)
 })
 
 const generateId = () => {
@@ -55,14 +61,14 @@ const generateId = () => {
 
 app.post('/todos', (request, response) => {
 
+  console.log('POST /todos', request.body)
+
   const body = request.body
 
   if (!body.content) {
 
     return response.status(400).json({
-
       error: 'Content Unknown'
-
     })
   }
 
@@ -79,6 +85,8 @@ app.post('/todos', (request, response) => {
 
 app.get('/todos/:id', (request, response) => {
 
+  console.log('GET', request.params.id)
+
   const id = Number(request.params.id)
 
   const todo = todos.find(todo => todo.id === id)
@@ -92,6 +100,8 @@ app.get('/todos/:id', (request, response) => {
 
 app.delete('/todos/:id', (request, response) => {
 
+  console.log('DELETE')
+
   const id = Number(request.params.id)
 
   todos = todos.filter(todo => todo.id !== id)
@@ -101,7 +111,7 @@ app.delete('/todos/:id', (request, response) => {
 
 const unknownUrl = (request, response) => {
 
-  response.status(404).send({ error: 'Unknown url' })
+  response.status(404).send({ error: 'Unknown Url' })
 }
 
 app.use(unknownUrl)

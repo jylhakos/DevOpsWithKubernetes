@@ -30,6 +30,8 @@ app.use(bodyParser());
 
 const public_file = './public/image.jpg'
 
+var todos = []
+
 async function copy() {
 
   try {
@@ -44,16 +46,31 @@ async function copy() {
    }
 }
 
+async function initialize() {
+
+  await service.get().then(result => {
+
+      console.log(result)
+
+      for(var i = 0; i < result.length; i++) {
+        
+        var todo = result[i]
+
+        todos.push(todo.content)
+
+        console.log(todo.content)
+      }
+
+      console.log(todos)
+
+    })
+}
+
 app.use(async (ctx) => {
 
   if (ctx.url === '/' && ctx.method === 'GET') {
 
     console.log(ctx.method)
-
-    service.get().then(result => {
-
-      console.log(result)
-    })
 
     var html = `
       <!DOCTYPE html>
@@ -67,10 +84,16 @@ app.use(async (ctx) => {
           </div>
           <br>
           <div style="height:15%;">
-              <ul id="todo_list">
-                 <li>Todo A</li>
-                 <li>Todo B</li>
-              </ul>
+              <ul id="todo_list">`
+
+              for (var i = 0; i < todos.length; i++) {
+                html += `<li>` 
+                html += todos[i] 
+                html += `</li>`
+              }
+
+          html += 
+          `</ul>
           </div>
           <script>
 
@@ -116,6 +139,9 @@ app.use(async (ctx) => {
         </body>
       </html>
     `
+
+    console.log('html', html)
+
     ctx.body = html
 
   } else if (ctx.url === '/' && ctx.method === 'POST') {
@@ -130,11 +156,9 @@ app.use(async (ctx) => {
     }
 
     service.create(todo).then(result => {
-
       console.log(result)
-
-      todos.concat(result)
-
+      todos.push(result.content)
+      console.log('todos', todos)
     })
 
     ctx.status = 200
@@ -152,6 +176,8 @@ function updateFile() {
 }
 
 setInterval(updateFile, PERIOD)
+
+initialize()
 
 app.listen(PORT)
 
