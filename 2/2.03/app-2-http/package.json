@@ -1,0 +1,17 @@
+{
+  "name": "app-1",
+  "version": "1.0.9",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "start": "node index.js"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "@koa/router": "^10.1.1",
+    "koa": "^2.11.0",
+    "koa-bodyparser": "^4.3.0",
+    "koa-router": "^10.1.1"
+  }
+}
