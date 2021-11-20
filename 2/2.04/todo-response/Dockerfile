@@ -13,6 +13,7 @@
 # $ kubectl get pods
 # $ kubectl get all --all-namespaces
 # $ kubectl get pods -n <NAME_SPACE>
+# $ kubectl logs <POD_NAME> -n <NAME_SPACE>
 # $ kubectl describe deployment todos-dep
 # $ kubectl get svc
 # $ kubectl get ing
