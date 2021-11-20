@@ -19,3 +19,6 @@ spec:
           ports:
           - containerPort: 3000
             name: app-0-http
+          envFrom:
+            - configMapRef:
+                name: app-http-env

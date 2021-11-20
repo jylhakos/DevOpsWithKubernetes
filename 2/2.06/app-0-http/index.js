@@ -1,5 +1,7 @@
 // $ npm install koa --save
 
+// $ npm install dotenv
+
 const Koa = require('koa')
 
 const app = new Koa()
@@ -19,6 +21,10 @@ const options = {
   path: '/',
   method: 'GET'
 }
+
+const dotenv = require('dotenv')
+
+dotenv.config()
 
 const getContent = async () => new Promise(result => {
 
@@ -63,11 +69,23 @@ app.use(async ctx => {
 
   const counter = await getContent()
 
-  console.log('counter', counter)
+  if (process.env.MESSAGE) {
+    console.log('counter', counter, process.env.MESSAGE)
+  }
+  else {
+    console.log('counter', counter)
+  }
 
   const timestamp = new Date().toISOString()
 
-  ctx.body = `<h1>${timestamp} : ${hash_string} : ${counter}</h1>`
+  if (process.env.MESSAGE) {
+    ctx.body = `<h1>${process.env.MESSAGE} : ${timestamp} : ${hash_string} : ${counter}</h1>`
+  }
+  else {
+    ctx.body = `<h1>${timestamp} : ${hash_string} : ${counter}</h1>`
+  }
+
+  
 
   console.log('ctx.body', ctx.body)
 

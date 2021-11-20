@@ -1,3 +1,4 @@
 .env
 key.txt
 secret.yaml
+process.env
