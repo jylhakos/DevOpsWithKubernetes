@@ -1,0 +1,20 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: imageapi-dep
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: imageapi
+  template:
+    metadata:
+      labels:
+        app: imageapi
+    spec:
+      containers:
+        - name: imageagain
+          image: jylhakos/app-2.05
+          envFrom:
+          - secretRef:
+              name: pixabay-apikey
