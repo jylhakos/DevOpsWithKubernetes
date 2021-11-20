@@ -1,0 +1,30 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: todos-frontend-dep
+  namespace: todos-namespace
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: todos-frontend
+  template:
+    metadata:
+      labels:
+        app: todos-frontend
+    spec:
+      volumes:
+        - name: shared-image
+          persistentVolumeClaim:
+            claimName: image-claim
+      containers:
+        - name: todo-finder
+          image: jylhakos/todo-finder
+          volumeMounts:
+          - name: shared-image
+            mountPath: /usr/src/app/files
+        - name: todo-response
+          image: jylhakos/todo-response
+          volumeMounts:
+          - name: shared-image
+            mountPath: /usr/src/app/files
