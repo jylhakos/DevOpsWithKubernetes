@@ -22,6 +22,7 @@
 # $ kubectl get nodes
 # $ kubectl describe deployment app-0-2-http-dep
 # $ kubectl logs <POD_NAME> -c app-2-http
+# $ kubectl logs <POD_NAME> -n <NAME_SPACE>
 # $ kubectl describe pod <POD_NAME>
 # $ kubectl port-forward <POD_NAME> 8081:3001
 # $ kubectl expose manifests/service
