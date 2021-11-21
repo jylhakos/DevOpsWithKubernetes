@@ -1,0 +1,14 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: backend-service
+  namespace: app-db-namespace
+spec:
+  type: ClusterIP
+  selector:
+    app: app-2-db
+  ports:
+    - name: http
+      protocol: TCP
+      port: 80
+      targetPort: 3001
