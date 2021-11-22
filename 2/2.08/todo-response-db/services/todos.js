@@ -1,10 +1,18 @@
+// $ npm install --save dotenv
+
 //import axios from 'axios'
 
 const axios = require('axios')
 
+require('dotenv').config()
+
 //const url = 'http://localhost:3002/todos'
 
-const url = 'http://backend-service/todos'
+//const url = 'http://backend-db-service/todos'
+
+const url = process.env.DB_URL || "http://localhost:3002/todos"
+
+console.log(url)
 
 const get = () => {
 

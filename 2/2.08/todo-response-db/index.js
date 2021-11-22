@@ -14,6 +14,8 @@ var serve = require('koa-static')
 
 const service = require('./services/todos')
 
+require('dotenv').config()
+
 const app = new Koa()
 
 const PORT = process.env.PORT || 3000
@@ -139,7 +141,7 @@ app.use(async (ctx) => {
         </body>
       </html>
     `
-
+    
     console.log('html', html)
 
     ctx.body = html

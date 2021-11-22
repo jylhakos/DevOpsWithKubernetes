@@ -1,4 +1,4 @@
-# $ docker build -t <USER_NAME>/todo-response .
+# $ docker build -t <USER_NAME>/todo-response-db .
 # $ docker push <USER_NAME>/todo-response:tagname
 # $ docker info | grep -i cgroup
 # $ k3d cluster delete
