@@ -8,7 +8,7 @@
 # $ sudo -u postgres psql
 # $ docker push <USER_NAME>/app-2-db
 # $ docker pull docker.io/<USER_NAME>/app-2-http
-# $ kubectl create configmap app-db-env -n app-db-namespace --from-env-file=manifests/.env
+# $ kubectl create configmap app-db-env -n app-db-namespace --from-env-file=.env
 # $ kubectl get configmap -n app-db-namespace
 # $ kubectl describe configMap app-db-env -n app-db-namespace
 # postgres# CREATE TABLE counters (ID SERIAL PRIMARY KEY, COUNTER INT NOT NULL); 

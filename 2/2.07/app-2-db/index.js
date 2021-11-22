@@ -8,6 +8,8 @@
 
 // $ npm install --save pg
 
+// $ npm install --save dotenv
+
 const Koa = require('koa')
 
 const Router = require('koa-router')
@@ -25,6 +27,8 @@ const router = new Router()
 const path = require('path')
 
 const fs = require('fs')
+
+require('dotenv').config()
 
 var counter = 0
 
