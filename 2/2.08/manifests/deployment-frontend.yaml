@@ -20,11 +20,17 @@ spec:
       containers:
         - name: todo-finder
           image: jylhakos/todo-finder
+          envFrom:
+            - configMapRef:
+                name: app-db-env
           volumeMounts:
           - name: shared-image
             mountPath: /usr/src/app/files
         - name: todo-response-db
-          image: jylhakos/todo-response-db
+          image: jylhakos/todo-response-db:2.0.8
+          envFrom:
+            - configMapRef:
+                name: app-db-env
           volumeMounts:
           - name: shared-image
             mountPath: /usr/src/app/files

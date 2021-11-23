@@ -2,7 +2,7 @@ apiVersion: apps/v1
 kind: StatefulSet
 metadata:
   name: postgresql-ss
-  namespace: app-db-namespace
+  namespace: todos-db-namespace
 spec:
   serviceName: postgresql-svc
   selector:
@@ -18,6 +18,8 @@ spec:
         - name: postgresql
           image: postgres:latest
           env:
+            - name: POSTGRES_INITDB_ARGS
+              value: "-A md5"
             - name: PGDATA
               value: /var/lib/postgresql/data/pgdata
           envFrom:

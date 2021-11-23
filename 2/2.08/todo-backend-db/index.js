@@ -35,19 +35,6 @@ app.use(requestLogger)
 
 require('dotenv').config()
 
-var todos = [
-  {
-    id: 1,
-    content: "Todo A",
-    date: "2021-11-19T11:30:32.093Z"
-  },
-  {
-    id: 2,
-    content: "Todo B",
-    date: "2021-11-19T12:33:35.091Z"
-  }
-]
-
 var todo_id = 0
 
 const { Sequelize, Model, DataTypes } = require('sequelize');
@@ -66,6 +53,8 @@ const sequelize = new Sequelize(process.env.DB_SCHEMA || 'postgres',
                                         ssl: process.env.DB_SSL == "true"
                                 }
 })
+
+// DATABASE_URL=postgres://username@localhost:5432/database_name
 
 const Todos = sequelize.define('todos', {
     ID: {
@@ -123,6 +112,8 @@ app.get('/todos', async function(request, response) {
 
   console.log('GET /todos')
 
+  var todos = []
+
   try {
 
         await sequelize.sync().then(() => {
@@ -142,7 +133,7 @@ app.get('/todos', async function(request, response) {
 
         if (records && records.length > 0) {
 
-          todos = []
+          
 
           records.forEach(record => {
 
@@ -166,6 +157,7 @@ app.get('/todos', async function(request, response) {
     }
 
   response.json(todos)
+
 })
 
 const generateId = () => {

@@ -10,9 +10,9 @@ require('dotenv').config()
 
 //const url = 'http://backend-db-service/todos'
 
-const url = process.env.DB_URL || "http://localhost:3002/todos"
+const url = process.env.BACKEND_URL || "http://localhost:3002/todos"
 
-console.log(url)
+console.log('process.env.DB_URL', process.env.BACKEND_URL, 'URL', url)
 
 const get = () => {
 

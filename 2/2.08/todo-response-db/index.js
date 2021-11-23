@@ -18,7 +18,9 @@ require('dotenv').config()
 
 const app = new Koa()
 
-const PORT = process.env.PORT || 3000
+const PORT = process.env.FRONTEND_PORT || 3000
+
+console.log('process.env.FRONTEND_PORT', process.env.FRONTEND_PORT)
 
 const directory = path.join('/', 'usr', 'src', 'app', 'files')
 
@@ -49,6 +51,8 @@ async function copy() {
 }
 
 async function initialize() {
+
+  todos = []
 
   await service.get().then(result => {
 
@@ -145,6 +149,18 @@ app.use(async (ctx) => {
     console.log('html', html)
 
     ctx.body = html
+
+  } else if (ctx.url === '/todos' && ctx.method === 'GET') {
+    
+    console.log('ctx', ctx.method, ctx.url, ctx.origin)
+
+    await initialize().then(() => {
+
+      console.log('redirect', ctx.origin)
+
+      ctx.redirect(ctx.origin)
+
+    })
 
   } else if (ctx.url === '/' && ctx.method === 'POST') {
     

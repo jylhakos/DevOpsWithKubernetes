@@ -1,5 +1,5 @@
-# $ docker build -t <USER_NAME>/todo-response-db .
-# $ docker push <USER_NAME>/todo-response:tagname
+# $ docker build -t <USER_NAME>/todo-response-db:2.0.8 .
+# $ docker push <USER_NAME>/todo-response::2.0.8
 # $ docker info | grep -i cgroup
 # $ k3d cluster delete
 # $ k3d cluster create --port 8082:30080@agent:0 -p 8081:80@loadbalancer --agents 2

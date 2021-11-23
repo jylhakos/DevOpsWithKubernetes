@@ -10,7 +10,9 @@ const axios = require('axios')
 
 const app = new Koa()
 
-const PORT = process.env.PORT || 3001
+const PORT = process.env.FINDER_PORT || 3001
+
+console.log('process.env.FINDER_PORT', process.env.FINDER_PORT)
 
 const directory = path.join('/', 'usr', 'src', 'app', 'files')
 
