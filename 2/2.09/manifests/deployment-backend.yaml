@@ -1,18 +1,24 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: todos-backend-dep
-  namespace: todos-namespace
+  name: todos-backend-db-dep
+  namespace: todos-db-namespace
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app: todos-backend
+      app: todos-backend-db
   template:
     metadata:
       labels:
-        app: todos-backend
+        app: todos-backend-db
     spec:
       containers:
-        - name: todo-backend
-          image: jylhakos/todo-backend
+        - name: todo-backend-db
+          image: jylhakos/todo-backend-db:2.0.9
+          env:
+            - name: DB_HOST
+              value: postgresql-svc
+          envFrom:
+            - configMapRef:
+                name: app-db-env
