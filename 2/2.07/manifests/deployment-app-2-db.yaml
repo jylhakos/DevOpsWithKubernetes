@@ -22,6 +22,16 @@ spec:
           env:
             - name: DB_HOST
               value: postgresql-svc
+            - name: POSTGRES_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: postgres-secret-config
+                  key: password 
+            - name: PGPASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: postgres-secret-config
+                  key: password
           envFrom:
             - configMapRef:
                 name: app-db-env

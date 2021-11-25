@@ -8,6 +8,7 @@ spec:
   selector:
     app: app-2-db
   ports:
-    - port: 80
+    - name: http
       protocol: TCP
+      port: 80
       targetPort: 3001

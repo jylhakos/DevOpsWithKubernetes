@@ -13,9 +13,16 @@ spec:
       labels:
         app: app-0-db
     spec:
+      volumes:
+        - name: shared-image
+          persistentVolumeClaim:
+            claimName: image-claim
       containers:
         - name: app-0-db
           image: jylhakos/app-0-db
-          ports:
-          - containerPort: 3000
-            name: app-0-db
+          envFrom:
+            - configMapRef:
+                name: app-db-env
+          volumeMounts:
+          - name: shared-image
+            mountPath: /usr/src/app/files

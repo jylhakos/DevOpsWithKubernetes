@@ -6,6 +6,13 @@
 # $ sudo -i -u postgres 
 # $ psql
 # $ sudo -u postgres psql
+# $ kubectl create -f manifests/postgres-secrets.yaml -n app-db-namespace
+# $ kubectl get secret postgres-secret-config -n app-db-namespace -o yaml
+# $ kubectl create -f manifests/postgresql.yaml -n app-db-namespace
+# $ kubectl exec -it postgresql-ss-0 -n app-db-namespace bash
+# $ kubectl exec -it <POD_NAME> -n app-db-namespace -- psql -U postgres
+# root# ls -la /var/lib/postgresql/data/pgdata/pg_hba.conf
+# $ kubectl create -f manifests/deployment-app-2-db.yaml -n app-db-namespace
 # $ docker push <USER_NAME>/app-2-db
 # $ docker pull docker.io/<USER_NAME>/app-2-http
 # $ kubectl create configmap app-db-env -n app-db-namespace --from-env-file=.env
@@ -32,7 +39,7 @@
 # $ kubectl describe deployment app-2-db-dep
 # $ kubectl logs <POD_NAME> -c app-2-db
 # $ kubectl logs <POD_NAME> -n <NAME_SPACE>
-# $ kubectl describe pod <POD_NAME>
+# $ kubectl describe pod <POD_NAME> -n <NAME_SPACE>
 # $ kubectl port-forward <POD_NAME> 8081:3001
 # $ kubectl expose manifests/service
 # http://localhost:8081/pingpong
