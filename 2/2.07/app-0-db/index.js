@@ -12,7 +12,7 @@ const http = require('http')
 
 // k8s networking
 const options = {
-  hostname: 'backend-service',
+  hostname: 'app-2-db-svc',
   //hostname: 'localhost',
   port: 80,
   //port: 3001,

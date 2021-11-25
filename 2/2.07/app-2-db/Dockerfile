@@ -28,7 +28,7 @@
 # $ docker exec k3d-k3s-default-agent-0 mkdir -p /data/pgdata
 # $ kubectl delete -f manifests/
 # $ kubectl create namespace <NAME_SPACE>
-# $ kubectl apply -f manifests/
+# $ kubectl apply -f manifests/ -n app-db-namespace
 # $ kubectl describe pod <POD_NAME> -n app-db-namespace
 # $ kubectl get svc -n <NAME_SPACE>
 # $ kubectl get ing -n <NAME_SPACE>
@@ -43,6 +43,7 @@
 # $ kubectl port-forward <POD_NAME> 8081:3001
 # $ kubectl expose manifests/service
 # http://localhost:8081/pingpong
+# $ kubectl get jobs --all-namespaces | sed '1d' | awk '{ print $2, "--namespace", $1 }' | while read line; do kubectl delete jobs $line; done
 
 FROM node:alpine
 
@@ -51,6 +52,8 @@ WORKDIR /usr/src/app
 COPY package* ./
 
 RUN npm ci
+
+RUN apk --no-cache add curl
 
 COPY . .
 
