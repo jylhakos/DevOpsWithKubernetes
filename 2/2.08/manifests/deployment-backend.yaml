@@ -15,7 +15,7 @@ spec:
     spec:
       containers:
         - name: todo-backend-db
-          image: jylhakos/todo-backend-db:2.0.8
+          image: jylhakos/todo-backend-db:2.0.15
           env:
             - name: DB_HOST
               value: postgresql-svc

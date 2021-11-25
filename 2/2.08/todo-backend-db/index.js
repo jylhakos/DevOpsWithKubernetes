@@ -18,6 +18,8 @@ app.use(cors())
 
 app.use(express.json())
 
+var todos = []
+
 const requestLogger = (request, response, next) => {
 
   console.log('Method:', request.method)
@@ -112,7 +114,7 @@ app.get('/todos', async function(request, response) {
 
   console.log('GET /todos')
 
-  var todos = []
+  todos = []
 
   try {
 
