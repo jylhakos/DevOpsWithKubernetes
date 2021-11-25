@@ -40,7 +40,7 @@
 # $ kubectl create namespace prometheus
 # $ helm install prometheus-community/kube-prometheus-stack --generate-name --namespace prometheus
 # kubectl -n prometheus port-forward <POD_NAME> 3000
-# GRAFANA: USER: admin PASSWORD: 
+# GRAFANA: USER: admin PASSWORD: prom-operator
 # https://linuxblog.xyz/posts/kube-prometheus-stack/
 # $ kubectl create namespace loki
 # $ helm repo add loki https://grafana.github.io/loki/charts
