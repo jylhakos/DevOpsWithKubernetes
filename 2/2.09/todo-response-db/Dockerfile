@@ -10,7 +10,7 @@
 # $ kubectl delete -f manifests/
 # $ kubectl create namespace <NAME_SPACE>
 # $ kubectl apply -f manifests/
-# $ kubectl get pods
+# $ kubectl get pods -n todos-db-namespace
 # $ kubectl get all --all-namespaces
 # $ kubectl get pods -n <NAME_SPACE>
 # $ kubectl logs <POD_NAME> -n <NAME_SPACE>

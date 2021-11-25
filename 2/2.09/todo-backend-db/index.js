@@ -6,11 +6,17 @@
 
 // $ npm install --save dotenv
 
+// $ npm install --save curl
+
 const express = require('express')
 
 const app = express()
 
 const cors = require('cors')
+
+const fs = require('fs')
+
+const path = require('path')
 
 app.use(express.static('build'))
 
@@ -36,6 +42,8 @@ app.use(requestLogger)
 require('dotenv').config()
 
 var todo_id = 0
+
+var todos = []
 
 const { Sequelize, Model, DataTypes } = require('sequelize');
 
@@ -68,6 +76,46 @@ const Todos = sequelize.define('todos', {
         allowNull: false
     }
 })
+
+var TODO_URL = ""
+
+const directory = path.join('/', 'etc', '/', 'data')
+
+console.log(directory)
+
+const filePath = path.join(directory, '/', 'url.txt')
+
+console.log(filePath)
+
+const getUrl = async () => new Promise(response => {
+
+  console.log('getUrl')
+
+  try {
+
+    fs.readFile(filePath, 'utf8' , (error, data) => {
+
+      if (error) {
+
+        console.error(error)
+
+      }
+
+      console.log(data)
+
+      TODO_URL = data
+
+      console.log('TODO_URL', TODO_URL)
+
+      return true
+
+    })
+
+  } catch (error) {
+    console.log(error)
+    return false
+  }
+});
 
 const initialize = (async () => {
 
@@ -112,7 +160,11 @@ app.get('/todos', async function(request, response) {
 
   console.log('GET /todos')
 
-  var todos = []
+  todos = []
+
+  const success = await getUrl()
+
+  console.log('success', success)
 
   try {
 
@@ -132,8 +184,6 @@ app.get('/todos', async function(request, response) {
         console.log(records)
 
         if (records && records.length > 0) {
-
-          
 
           records.forEach(record => {
 
@@ -244,6 +294,7 @@ app.get('/todos/:id', (request, response) => {
     console.log(error)
   }
 */
+
 app.delete('/todos/:id', (request, response) => {
 
   console.log('DELETE')
@@ -263,6 +314,8 @@ const unknownUrl = (request, response) => {
 app.use(unknownUrl)
 
 const PORT = process.env.PORT || 3002
+
+initialize()
 
 app.listen(PORT, () => {
 

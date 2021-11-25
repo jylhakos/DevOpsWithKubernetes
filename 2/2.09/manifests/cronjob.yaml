@@ -1,21 +1,34 @@
 apiVersion: batch/v1beta1
 kind: CronJob
 metadata:
-  name: app-todos-cron
+  name: todo-url
   namespace: todos-db-namespace
-  labels:
-    run: curl
 spec:
-  schedule: "59 16 * * *"
+  schedule: "* * * * *"
+  successfulJobsHistoryLimit: 1
   jobTemplate:
     spec:
       template:
         spec:
           containers:
-          - name: curl
-            image: curlimages/curl:7.73.0
-            args:
-            - sh
-            - -c
-            - "DAILY_TODO_URL=$(sh -c echo -n ; curl -sI https://en.wikipedia.org/wiki/Special:Random |grep 'location:' |awk '{print $2}')"
-          restartPolicy: OnFailure
+          - name: todo-url
+            image: jylhakos/todo-backend-db:2.9.14
+            command: ["/bin/sh"]
+            args: ["/etc/config/shell-script.sh"]
+            volumeMounts:
+            - name: config-volume
+              mountPath: /etc/config
+              readOnly: false
+            - name: data-volume
+              mountPath: /etc/data
+              readOnly: false
+          volumes:
+          - name: config-volume
+            configMap:
+              name: shell-script
+              defaultMode: 0644
+          - name: data-volume
+            emptyDir: {}
+          restartPolicy: Never
+
+      

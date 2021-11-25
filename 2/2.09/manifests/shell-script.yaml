@@ -1,0 +1,18 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: shell-script
+  namespace: todos-db-namespace
+  labels:
+      app: shell-script-app
+data:
+  shell-script.sh: |
+    #!/bin/bash
+    echo /etc/data/url.txt
+    URL=`sh -c echo -n ; curl -sI https://en.wikipedia.org/wiki/Special:Random | grep 'location:' | awk '{print $2}'`
+    touch /etc/data/url.txt
+    chmod 0644 /etc/data/url.txt
+    echo $URL > /etc/data/url.txt
+    ls -l /etc/data/url.txt
+    cat /etc/data/url.txt
+    
