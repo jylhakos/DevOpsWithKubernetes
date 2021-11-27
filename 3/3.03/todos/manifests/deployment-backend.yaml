@@ -1,0 +1,32 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: todos-backend-db-dep
+  namespace: todos-db-namespace
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: todos-backend-db
+  template:
+    metadata:
+      labels:
+        app: todos-backend-db
+    spec:
+      containers:
+        - name: todo-backend-db
+          image: PROJECT/IMAGE
+          #image: jylhakos/todo-backend-db:3.0.0
+          volumeMounts:
+            - name: data-volume
+              mountPath: /etc/data
+              readOnly: false
+          env:
+            - name: DB_HOST
+              value: postgresql-svc
+          envFrom:
+            - configMapRef:
+                name: app-db-env
+      volumes:
+          - name: data-volume
+            emptyDir: {}
