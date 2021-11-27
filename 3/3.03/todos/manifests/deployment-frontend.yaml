@@ -2,7 +2,6 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: todos-frontend-db-dep
-  namespace: todos-db-namespace
 spec:
   replicas: 1
   selector:
@@ -13,24 +12,14 @@ spec:
       labels:
         app: todos-frontend-db
     spec:
-      volumes:
-        - name: shared-image
-          persistentVolumeClaim:
-            claimName: image-claim
       containers:
         - name: todo-finder
           image: jylhakos/todo-finder
           envFrom:
             - configMapRef:
                 name: app-db-env
-          volumeMounts:
-          - name: shared-image
-            mountPath: /usr/src/app/files
         - name: todo-response-db
-          image: PROJECT-FRONTEND/IMAGE-FRONTEND
+          image: PROJECT/IMAGE_FRONTEND
           envFrom:
             - configMapRef:
                 name: app-db-env
-          volumeMounts:
-          - name: shared-image
-            mountPath: /usr/src/app/files

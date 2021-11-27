@@ -5,7 +5,8 @@ env:
   PROJECT_ID: ${{ secrets.GKE_PROJECT }}
   GKE_CLUSTER: app-3-dwk-cluster
   GKE_ZONE: europe-west4-a
-  IMAGE: dwk-environments
+  IMAGE_BACKEND: todo-backend-db
+  IMAGE_FRONTEND: todos-frontend-db
 jobs:
   build-publish-deploy:
     name: Build, Publish and Deploy
@@ -24,26 +25,26 @@ jobs:
     - name: Build
       run: |-
         docker build \
-          --tag "gcr.io/$PROJECT-BACKEND/$IMAGE-BACKEND:${GITHUB_REF#refs/heads/}-$GITHUB_SHA" \
+          --tag "gcr.io/$PROJECT_ID/$IMAGE_BACKEND:${GITHUB_REF#refs/heads/}-$GITHUB_SHA" \
           .
       run: |-
         docker build \
-          --tag "gcr.io/$PROJECT-FRONTEND/$IMAGE-FRONTEND:${GITHUB_REF#refs/heads/}-$GITHUB_SHA" \
+          --tag "gcr.io/$PROJECT_ID/$IMAGE_FRONTEND:${GITHUB_REF#refs/heads/}-$GITHUB_SHA" \
           .
     - name: Publish
       run: |-
-        docker push "gcr.io/$PROJECT-BACKEND/$IMAGE-BACKEND:${GITHUB_REF#refs/heads/}-$GITHUB_SHA"
+        docker push "gcr.io/$PROJECT_ID/$IMAGE_BACKEND:${GITHUB_REF#refs/heads/}-$GITHUB_SHA"
       run: |-
-        docker push "gcr.io/$PROJECT-FRONTEND/$IMAGE-FRONTEND:${GITHUB_REF#refs/heads/}-$GITHUB_SHA"
+        docker push "gcr.io/$PROJECT_ID/$IMAGE_FRONTEND:${GITHUB_REF#refs/heads/}-$GITHUB_SHA"
     - name: Set up Kustomize
       uses: imranismail/setup-kustomize@v1
     - name: Deploy
       run: |-
-        kustomize edit set image gcr.io/PROJECT-BACKEND/IMAGE-BACKEND=gcr.io/$PROJECT-BACKEND/$IMAGE-BACKEND:${GITHUB_REF#refs/heads/}-$GITHUB_SHA
+        kustomize edit set image gcr.io/PROJECT_ID/IMAGE_BACKEND=gcr.io/$PROJECT_ID/$IMAGE_BACKEND:${GITHUB_REF#refs/heads/}-$GITHUB_SHA
         kustomize build . | kubectl apply -f -
         kubectl rollout status deployment $IMAGE-BACKEND
-        kustomize edit set image gcr.io/PROJECT-FRONTEND/IMAGE-FRONTEND=gcr.io/$PROJECT-FRONTEND/$IMAGE-FRONTEND:${GITHUB_REF#refs/heads/}-$GITHUB_SHA
+        kustomize edit set image gcr.io/PROJECT_ID/IMAGE_FRONTEND=gcr.io/$PROJECT_ID/$IMAGE_FRONTEND:${GITHUB_REF#refs/heads/}-$GITHUB_SHA
         kustomize build . | kubectl apply -f -
-        kubectl rollout status deployment $IMAGE-FRONTEND
+        kubectl rollout status deployment $IMAGE_FRONTEND
         kubectl get services -o wide
     
