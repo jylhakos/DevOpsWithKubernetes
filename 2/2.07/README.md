@@ -4,8 +4,11 @@ $ kubectl exec -ti postgresql-ss-0 -n app-db-namespace -- env PGPASSWORD=postgre
 
 postgres=# \l
                                  List of databases
-   Name    |  Owner   | Encoding |  Collate   |   Ctype    |   Access privileges   
+   Name    |  Owner   | Encoding |  Collate   |   Ctype    |   Access privileges  
+
 -----------+----------+----------+------------+------------+-----------------------
+
+ 
  postgres  | postgres | UTF8     | en_US.utf8 | en_US.utf8 | 
 
 
