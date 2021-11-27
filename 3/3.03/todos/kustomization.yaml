@@ -5,4 +5,4 @@ resources:
 - manifests/service.yaml
 images:
 - name: PROJECT/IMAGE
-  newName: jylhakos/colorcontent
+  newName: jylhakos/todo-backend-db:3.0.0
