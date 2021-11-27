@@ -1,0 +1,30 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: app-2-db-dep
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: app-2-db
+  template:
+    metadata:
+      labels:
+        app: app-2-db
+    spec:
+      containers:
+        - name: app-2-db
+          image: jylhakos/app-2-db
+          ports:
+          - containerPort: 3001
+            name: app-2-db
+          env:
+            - name: DB_HOST
+              value: postgresql-svc
+            - name: POSTGRES_PASSWORD
+              value: postgres
+            - name: PGPASSWORD
+              value: postgres
+          envFrom:
+            - configMapRef:
+                name: app-db-env
