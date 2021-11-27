@@ -15,6 +15,10 @@
 # $ git commit -m "3.03"
 # $ kubectl create namespace ${GITHUB_REF#refs/heads/} || true
 # $ kubectl config set-context --current --namespace=${GITHUB_REF#refs/heads/}
+# $ git checkout -b 3.04
+# $ git add .
+# $ git commit -m "3.04"
+# $ git push origin 3.04
 # $ git checkout main
 
 FROM nginx:1.19-alpine
