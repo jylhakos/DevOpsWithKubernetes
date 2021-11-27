@@ -1,0 +1,20 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: app-0-db-dep
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: app-0-db
+  template:
+    metadata:
+      labels:
+        app: app-0-db
+    spec:
+      containers:
+        - name: app-0-db
+          image: jylhakos/app-0-db:3.0.2
+          envFrom:
+            - configMapRef:
+                name: app-db-env

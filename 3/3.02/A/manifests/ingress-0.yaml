@@ -1,0 +1,23 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: app-0-db-ing
+spec:
+  rules:
+  - http:
+      paths:
+      - path: /
+        pathType: Prefix
+        backend:
+          service:
+            name: app-0-db-svc
+            port:
+              number: 80
+      - path: /logs
+        pathType: Prefix
+        backend:
+          service:
+            name: app-0-db-svc
+            port:
+              number: 80
+              
