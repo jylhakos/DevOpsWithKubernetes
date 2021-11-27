@@ -24,11 +24,17 @@ jobs:
     - name: Build
       run: |-
         docker build \
-          --tag "gcr.io/$PROJECT_ID/$IMAGE:${GITHUB_REF#refs/heads/}-$GITHUB_SHA" \
+          --tag "gcr.io/$PROJECT-BACKEND/$IMAGE-BACKEND:${GITHUB_REF#refs/heads/}-$GITHUB_SHA" \
+          .
+      run: |-
+        docker build \
+          --tag "gcr.io/$PROJECT-FRONTEND/$IMAGE-FRONTEND:${GITHUB_REF#refs/heads/}-$GITHUB_SHA" \
           .
     - name: Publish
       run: |-
-        docker push "gcr.io/$PROJECT_ID/$IMAGE:${GITHUB_REF#refs/heads/}-$GITHUB_SHA"
+        docker push "gcr.io/$PROJECT-BACKEND/$IMAGE-BACKEND:${GITHUB_REF#refs/heads/}-$GITHUB_SHA"
+      run: |-
+        docker push "gcr.io/$PROJECT-FRONTEND/$IMAGE-FRONTEND:${GITHUB_REF#refs/heads/}-$GITHUB_SHA"
     - name: Set up Kustomize
       uses: imranismail/setup-kustomize@v1
     - name: Deploy
