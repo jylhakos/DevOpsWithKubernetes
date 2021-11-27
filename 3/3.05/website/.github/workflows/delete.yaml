@@ -1,0 +1,10 @@
+name: Delete branch 
+on: delete
+jobs:
+delete:
+  if: github.event.ref_type == 'branch'
+  runs-on: ubuntu-latest
+  steps:
+    - name: Delete
+      run: |
+        echo "Delete branch ${{ github.event.ref }}"
