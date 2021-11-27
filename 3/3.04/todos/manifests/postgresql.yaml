@@ -2,7 +2,6 @@ apiVersion: apps/v1
 kind: StatefulSet
 metadata:
   name: postgresql-ss
-  namespace: todos-db-namespace
 spec:
   serviceName: postgresql-svc
   selector:
@@ -34,7 +33,6 @@ spec:
   volumeClaimTemplates:
     - metadata:
         name: postgresql-data
-        namespace: app-db-namespace
       spec:
         accessModes: ["ReadWriteOnce"]
         resources:
