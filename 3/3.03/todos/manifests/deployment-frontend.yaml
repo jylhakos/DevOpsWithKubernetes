@@ -27,7 +27,7 @@ spec:
           - name: shared-image
             mountPath: /usr/src/app/files
         - name: todo-response-db
-          image: jylhakos/todo-response-db:2.0.9
+          image: PROJECT-FRONTEND/IMAGE-FRONTEND
           envFrom:
             - configMapRef:
                 name: app-db-env

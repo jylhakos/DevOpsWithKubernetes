@@ -4,5 +4,7 @@ resources:
 - manifests/deployment.yaml
 - manifests/service.yaml
 images:
-- name: PROJECT/IMAGE
+- name: PROJECT-BACKEND/IMAGE-BACKEND
   newName: jylhakos/todo-backend-db:3.0.0
+- name: PROJECT-FRONTEND/IMAGE-FRONTEND
+  newName: jylhakos/todo-response-db:2.0.9

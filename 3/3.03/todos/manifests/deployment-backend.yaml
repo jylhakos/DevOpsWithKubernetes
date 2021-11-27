@@ -15,8 +15,7 @@ spec:
     spec:
       containers:
         - name: todo-backend-db
-          image: PROJECT/IMAGE
-          #image: jylhakos/todo-backend-db:3.0.0
+          image: PROJECT-BACKEND/IMAGE-BACKEND
           volumeMounts:
             - name: data-volume
               mountPath: /etc/data

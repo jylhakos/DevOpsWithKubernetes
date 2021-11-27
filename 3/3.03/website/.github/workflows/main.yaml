@@ -24,20 +24,17 @@ jobs:
     - name: Build
       run: |-
         docker build \
-          --tag "gcr.io/$PROJECT_ID/$IMAGE:${GITHUB_REF#refs/heads/}-$GITHUB_SHA" \
+          --tag "gcr.io/$PROJECT/$IMAGE:${GITHUB_REF#refs/heads/}-$GITHUB_SHA" \
           .
     - name: Publish
       run: |-
-        docker push "gcr.io/$PROJECT_ID/$IMAGE:${GITHUB_REF#refs/heads/}-$GITHUB_SHA"
+        docker push "gcr.io/$PROJECT/$IMAGE:${GITHUB_REF#refs/heads/}-$GITHUB_SHA"
     - name: Set up Kustomize
       uses: imranismail/setup-kustomize@v1
     - name: Deploy
       run: |-
-        kustomize edit set image gcr.io/PROJECT-BACKEND/IMAGE-BACKEND=gcr.io/$PROJECT-BACKEND/$IMAGE-BACKEND:${GITHUB_REF#refs/heads/}-$GITHUB_SHA
+        kustomize edit set image gcr.io/PROJECT/IMAGE=gcr.io/$PROJECT/$IMAGE:${GITHUB_REF#refs/heads/}-$GITHUB_SHA
         kustomize build . | kubectl apply -f -
-        kubectl rollout status deployment $IMAGE-BACKEND
-        kustomize edit set image gcr.io/PROJECT-FRONTEND/IMAGE-FRONTEND=gcr.io/$PROJECT-FRONTEND/$IMAGE-FRONTEND:${GITHUB_REF#refs/heads/}-$GITHUB_SHA
-        kustomize build . | kubectl apply -f -
-        kubectl rollout status deployment $IMAGE-FRONTEND
+        kubectl rollout status deployment $IMAGE
         kubectl get services -o wide
     
