@@ -1,0 +1,12 @@
+kind: HorizontalPodAutoscaler
+apiVersion: autoscaling/v1
+metadata:
+  name: app-2-db-hpa
+spec:
+  scaleTargetRef:
+    apiVersion: apps/v1
+    kind: Deployment
+    name: app-2-db-dep
+  minReplicas: 1
+  maxReplicas: 1
+  targetCPUUtilizationPercentage: 25
