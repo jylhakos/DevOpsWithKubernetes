@@ -1,0 +1,12 @@
+kind: HorizontalPodAutoscaler
+apiVersion: autoscaling/v1
+metadata:
+  name: todos-backend-hpa
+spec:
+  scaleTargetRef:
+    apiVersion: apps/v1
+    kind: Deployment
+    name: todos-backend-db-dep
+  minReplicas: 1
+  maxReplicas: 2
+  targetCPUUtilizationPercentage: 50
