@@ -34,7 +34,7 @@ spec:
   volumeClaimTemplates:
     - metadata:
         name: postgresql-data
-        namespace: app-db-namespace
+        namespace: todos-db-namespace
       spec:
         accessModes: ["ReadWriteOnce"]
         resources:
