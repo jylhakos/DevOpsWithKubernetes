@@ -1,0 +1,15 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: backend-db-service
+spec:
+  #type: ClusterIP
+  #type: LoadBalancer
+  type: NodePort
+  selector:
+    app: todos-backend-db
+  ports:
+    - name: http
+      protocol: TCP
+      port: 80
+      targetPort: 3002

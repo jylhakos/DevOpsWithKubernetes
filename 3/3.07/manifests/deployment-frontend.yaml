@@ -1,0 +1,25 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: todos-frontend-db-dep
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: todos-frontend-db
+  template:
+    metadata:
+      labels:
+        app: todos-frontend-db
+    spec:
+      containers:
+        - name: todo-finder
+          image: jylhakos/todo-finder
+          envFrom:
+            - configMapRef:
+                name: app-db-env
+        - name: todo-response-db
+          image: jylhakos/todo-response-db:2.0.8
+          envFrom:
+            - configMapRef:
+                name: app-db-env
