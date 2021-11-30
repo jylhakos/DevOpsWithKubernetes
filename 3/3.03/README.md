@@ -19,3 +19,5 @@ $ kubectl apply -k .
 A link to kustomize
 
 https://github.com/kubernetes-sigs/kustomize
+
+![alt text](https://github.com/jylhakos/DevOpsWithKubernetes/blob/main/3/3.03/3.03.png?raw=true)
