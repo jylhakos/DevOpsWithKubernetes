@@ -1,5 +1,6 @@
+# Deploying PostgreSQL with GKE
 
-PostgreSQL stores data in files, and the files are stored in persistent volume claims. 
+The files are stored in persistent volume claims. 
 
 PostgreSQL runs as a service in a Kubernetes cluster and that stores its database files in PersistentVolumeClaims.
 
