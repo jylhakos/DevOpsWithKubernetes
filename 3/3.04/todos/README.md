@@ -37,6 +37,6 @@ $ git merge 3.04
 $ git reset --hard origin/main
 
 
-![alt text](https://github.com/jylhakos/DevOpsWithKubernetes/blob/main/3/3.10/log-todo-backend-db.png?raw=true)
+![alt text](https://github.com/jylhakos/DevOpsWithKubernetes/blob/main/3/3.04/todos/3.04.png?raw=true)
 
 
