@@ -11,3 +11,6 @@ $ kubectl get deployments --watch
 A link to resource requests and limits
 
 https://kubernetes.io/docs/concepts/configuration/manage-resources-containers/
+
+
+![alt text](https://github.com/jylhakos/DevOpsWithKubernetes/blob/main/3/3.08/3.08.png?raw=true)
