@@ -35,3 +35,6 @@ $ kubectl logs app-2-db-dep-795cdf759-qf9fp -n app-db-namespace
 A link to reference
 
 https://cloud.google.com/architecture/deploying-highly-available-postgresql-with-gke
+
+
+![alt text](https://github.com/jylhakos/DevOpsWithKubernetes/blob/main/3/3.07/manifests/3.07.png?raw=true)
