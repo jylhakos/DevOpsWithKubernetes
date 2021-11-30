@@ -4,7 +4,7 @@ metadata:
   name: todos-backend-db-dep
 spec:
   replicas: 1
-  progressDeadlineSeconds: 3600
+  progressDeadlineSeconds: 120
   selector:
     matchLabels:
       app: todos-backend-db
@@ -19,9 +19,13 @@ spec:
           env:
             - name: DB_HOST
               value: postgresql-svc
-          envFrom:
-            - configMapRef:
-                name: app-db-env
+            - name: BACKEND_PORT
+              value: "3002"
+            - name: BACKEND_URL
+              value: "http://backend-db-service/todos"
+          #envFrom:
+          #  - configMapRef:
+          #      name: app-db-env
       volumes:
           - name: data-volume
             emptyDir: {}

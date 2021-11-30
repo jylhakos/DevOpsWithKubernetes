@@ -13,13 +13,21 @@ spec:
         app: todos-frontend-db
     spec:
       containers:
-        - name: todo-finder
-          image: jylhakos/todo-finder
-          envFrom:
-            - configMapRef:
-                name: app-db-env
+        #- name: todo-finder
+        #  image: jylhakos/todo-finder
+          #envFrom:
+          #  - configMapRef:
+          #      name: app-db-env
         - name: todo-response-db
+          #image: jylhakos/todo-response-db:2.0.9
           image: PROJECT/IMAGE_FRONTEND
-          envFrom:
-            - configMapRef:
-                name: app-db-env
+          env:
+            - name: DB_HOST
+              value: postgresql-svc
+            - name: FRONTEND_PORT
+              value: "3000"
+            - name: BACKEND_URL
+              value: "http://backend-db-service/todos"
+          #envFrom:
+          #  - configMapRef:
+          #      name: app-db-env

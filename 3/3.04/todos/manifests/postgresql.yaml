@@ -19,11 +19,19 @@ spec:
           env:
             - name: POSTGRES_INITDB_ARGS
               value: "-A md5"
+            - name: POSTGRES_HOST_AUTH_METHOD
+              value: "trust"
+            - name: POSTGRES_PASSWORD
+              value: "postgres"
             - name: PGDATA
-              value: /var/lib/postgresql/data
-          envFrom:
-            - configMapRef:
-                name: app-db-env
+              value: "/var/lib/postgresql/data"
+            - name: DB_PORT
+              value: "5432"
+            - name: DB_SCHEMA
+              value: "postgres"
+          #envFrom:
+          #  - configMapRef:
+          #      name: app-db-env
           ports:
           - containerPort: 5432
             name: postgresql-port

@@ -9,3 +9,6 @@ jobs:
         run: |
           echo "Delete branch ${GITHUB_REF#refs/heads/}"
           GITHUB_REF=$(echo $GITHUB_REF | sed -e "s#refs/heads/##g")
+          kubectl config set-context --current --namespace=${GITHUB_REF#refs/heads/}
+          kubectl delete namespace ${GITHUB_REF#refs/heads/}
+          kubectl delete -k .

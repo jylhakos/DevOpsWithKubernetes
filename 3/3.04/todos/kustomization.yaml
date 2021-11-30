@@ -1,9 +1,18 @@
 apiVersion: kustomize.config.k8s.io/v1beta1
 kind: Kustomization
 resources:
+- ./manifests/persistentvolume.yaml
+- ./manifests/persistentvolumeclaim.yaml
+- ./manifests/postgresql.yaml
+- ./manifests/service-postgresql.yaml
 - ./manifests/service-backend.yaml
 - ./manifests/ingress-backend.yaml
 - ./manifests/deployment-backend.yaml
+- ./manifests/service-response.yaml
+- ./manifests/ingress-frontend.yaml
+- ./manifests/deployment-frontend.yaml
 images:
 - name: PROJECT/IMAGE_BACKEND
   newName: jylhakos/todo-backend-db:3.0.0
+- name: PROJECT/IMAGE_FRONTEND
+  newName: jylhakos/todo-frontend-db:2.0.8
