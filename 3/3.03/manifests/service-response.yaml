@@ -1,0 +1,15 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: todo-response-db-svc
+spec:
+  #type: ClusterIP
+  #type: NodePort
+  type: LoadBalancer
+  selector:
+    app: todos-frontend-db
+  ports:
+    - name: http
+      protocol: TCP
+      port: 80
+      targetPort: 3000
