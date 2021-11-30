@@ -20,7 +20,11 @@ $ git branch -m master main
 
 $ git push -u origin main
 
+$ git add .
+
 $ git switch -c 3.04
+
+$ git commit -m "3.04"
 
 $ git push origin 3.04
 
@@ -31,3 +35,8 @@ $ git fetch origin
 $ git merge 3.04
 
 $ git reset --hard origin/main
+
+
+![alt text](https://github.com/jylhakos/DevOpsWithKubernetes/blob/main/3/3.10/log-todo-backend-db.png?raw=true)
+
+
