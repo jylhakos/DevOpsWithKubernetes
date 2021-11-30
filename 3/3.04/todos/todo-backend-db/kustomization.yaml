@@ -2,7 +2,7 @@ apiVersion: kustomize.config.k8s.io/v1beta1
 kind: Kustomization
 resources:
 - ./manifests/service-backend.yaml
-- ./manifests/ingress-backend.yaml
+- ./manifests/ingress.yaml
 - ./manifests/deployment-backend.yaml
 images:
 - name: PROJECT/IMAGE_BACKEND

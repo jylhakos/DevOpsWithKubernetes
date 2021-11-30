@@ -19,6 +19,7 @@
 # $ kubectl get ing
 # $ kubectl get nodes
 # $ kubectl logs <POD_NAME> -c todo-response
+# $ kubectl kustomize build ./todo-response-db/.
 
 FROM node:alpine
 

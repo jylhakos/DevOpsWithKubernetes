@@ -32,7 +32,7 @@ const requestLogger = (request, response, next) => {
 
   console.log('Body:  ', request.body)
 
-  console.log('-----------------------')
+  console.log('***********************')
 
   next()
 }

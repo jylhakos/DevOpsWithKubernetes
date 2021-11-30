@@ -1,0 +1,16 @@
+kind: PersistentVolume
+apiVersion: v1
+metadata:
+  name: database-pv
+spec:
+  storageClassName: pd-standard
+  capacity:
+    storage: 10Gi
+  accessModes:
+    - ReadWriteOnce
+  claimRef:
+    namespace: default
+    name: postgresql-pv
+  gcePersistentDisk:
+    pdName: app-3-dwk-disk
+    fsType: ext4

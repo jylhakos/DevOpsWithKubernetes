@@ -3,10 +3,13 @@ kind: Service
 metadata:
   name: todo-response-db-svc
 spec:
-  type: ClusterIP
+  #type: ClusterIP
+  #type: NodePort
+  type: LoadBalancer
   selector:
     app: todos-frontend-db
   ports:
-    - port: 2345
+    - name: http
       protocol: TCP
+      port: 80
       targetPort: 3000
