@@ -1,0 +1,35 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: app-0-db-dep
+  namespace: app-db-namespace
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: app-0-db
+  template:
+    metadata:
+      labels:
+        app: app-0-db
+    spec:
+      volumes:
+        - name: shared-image
+          persistentVolumeClaim:
+            claimName: image-claim
+      containers:
+        - name: app-0-db
+          #image: jylhakos/app-0-db:v1
+          image: jylhakos/app-0-db
+          envFrom:
+            - configMapRef:
+                name: app-db-env
+          volumeMounts:
+          - name: shared-image
+            mountPath: /usr/src/app/files
+          readinessProbe:
+            initialDelaySeconds: 10
+            periodSeconds: 5
+            httpGet:
+               path: /healthz
+               port: 3541
