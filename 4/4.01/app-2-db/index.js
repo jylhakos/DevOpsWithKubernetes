@@ -32,6 +32,10 @@ const fs = require('fs')
 
 require('dotenv').config()
 
+const { EventEmitter } = require('events');
+
+var connect_event = new EventEmitter();
+
 var counter = 0
 
 var counter_id = 0
@@ -74,32 +78,55 @@ const Counter = sequelize.define('counter', {
 
 const initialize = (async () => {
 
-	await sequelize.authenticate().then(() => {
+	console.log('initialize')
 
-		sequelize.sync({ force: true }).then(() => {
-
-  			console.log("Drop and Sync DB.")
-		})
-	})
-	
 	try {
 
-		await sequelize.sync().then(() => {
+		var connect_success = false
 
-	  		console.log("Sync DB.")
-		})
+		const initial = await sequelize.authenticate().then(() => {
 
-		const result = await Counter.create({
-			COUNTER: 0
-		})
+			sequelize.sync({ force: true }).then(() => {
 
-		console.log(result.toJSON())
+  			console.log("Drop and Sync DB.")
 
-		const result_json = result.toJSON()
+			}).catch(error => {
 
-		counter_id = result_json.ID
+    			console.log('Drop and Sync DB Error: ', error)
+  			})
 
-		console.log('ID:', counter_id)
+  			connect_success = true
+
+			connect_event.emit('connected', {connected: true})
+
+		}).catch(error => {
+
+    		console.log('Sequelize Error: ', error)
+
+    		connect_event.emit('connected', {connected: false})
+  		})
+	
+		if (connect_success) {
+
+			await sequelize.sync().then(() => {
+
+		  		console.log("Sync DB.")
+			})
+
+			const result = await Counter.create({
+
+				COUNTER: 0
+			})
+
+			console.log(result.toJSON())
+
+			const result_json = result.toJSON()
+
+			counter_id = result_json.ID
+
+			console.log('ID:', counter_id)
+
+		}
 
 	} catch (error) {
 
@@ -120,37 +147,56 @@ app.use(async ctx => {
 				await sequelize.sync().then(() => {
 
 	  				console.log("Sync DB.")
-				})
+
+				}).catch(error => {
+
+    				console.log('Sync DB Error: ', error)
+
+					ctx.status = 500
+
+  				})
 				
-				await Counter.findByPk(counter_id).then((result) => {
+				if (ctx.status != 500) {
 
-					console.log('result', result)
+					await Counter.findByPk(counter_id).then((result) => {
 
-					if (result) {
+						console.log('result', result)
 
-		    			counter = result.COUNTER
+						if (result) {
 
-		    			console.log('result.COUNTER', counter)
-					}
+			    			counter = result.COUNTER
 
-				})
+			    			console.log('result.COUNTER', counter)
+
+			    			var json_type = mime.lookup('json')
+		        
+		    				ctx.response.set("content-type", json_type)
+		        
+		    				var json_data = {counter: counter}
+		        
+		    				ctx.body = JSON.stringify(json_data)
+
+		    				ctx.status = 200
+					
+							console.log("ctx.body", counter)
+
+						} else {
+
+							ctx.status = 204
+						}
+					})
+				}
 
 			} catch (error) {
 
 				console.log('Error: ', error)
+
+				ctx.status = 500
   			}
 
-			var json_type = mime.lookup('json')
-	        
-	    	ctx.response.set("content-type", json_type)
-	        
-	    	var json_data = {counter: counter}
-	        
-	    	ctx.body = JSON.stringify(json_data)
-				
-			console.log("ctx.body " + counter)
+  			console.log("ctx.status", ctx.status)
 
-			break;
+  			break;
 
 		case "/pingpong":
 
@@ -201,9 +247,6 @@ app.use(async ctx => {
 
 	  				ctx.status = 200
 
-	  				//ctx.response.status = 200
-
-	  				//ctx.response.set('Content-Type', 'text/html charset=utf-8')
 				})
 
 			} catch (error) {
@@ -211,10 +254,7 @@ app.use(async ctx => {
 				console.log('Error: ', error)
 
 				ctx.status = 500
-				
-				//ctx.response.status = 500
 
-				//ctx.response.set('Content-Type', 'text/html charset=utf-8')
   			}
 
 			break;
@@ -225,8 +265,16 @@ app.use(async ctx => {
 	}
 })
 
-initialize()
+const success = initialize()
 
-app.listen(PORT)
+connect_event.on('connected', function(result) {
 
-console.log(`Port: ${PORT}`)
+	var result_json = JSON.stringify(result) + '\n'
+
+	process.stdout.write(result_json)
+
+	app.listen(PORT)
+
+	console.log(`Port: ${PORT}`)
+})
+
