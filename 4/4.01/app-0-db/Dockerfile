@@ -13,6 +13,14 @@ FROM node:alpine
 
 WORKDIR /usr/src/app
 
+RUN npm install npm@latest -g
+
+RUN npm cache clean --force
+
+RUN npm config rm proxy 
+
+RUN npm config rm https-proxy
+
 COPY package* ./
 
 RUN npm ci

@@ -2,7 +2,6 @@ apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
   name: app-2-db-ing
-  namespace: app-db-namespace
 spec:
   rules:
   - http:
@@ -19,5 +18,12 @@ spec:
         backend:
           service:
             name: app-2-db-svc
+            port:
+              number: 80
+      - path: /healthz
+        pathType: Prefix
+        backend:
+          service:
+            name: app-0-db-svc
             port:
               number: 80

@@ -111,7 +111,12 @@ const initialize = (async () => {
 			await sequelize.sync().then(() => {
 
 		  		console.log("Sync DB.")
-			})
+
+			}).catch(error => {
+
+				console.log('Error', error)
+
+  			})
 
 			const result = await Counter.create({
 
@@ -134,7 +139,15 @@ const initialize = (async () => {
   	}
 })
 
-app.use(async ctx => {
+app.use(async (ctx, next) => {
+
+	console.log('ctx.url', ctx.url)
+
+	ctx.set('Access-Control-Allow-Origin', '*')
+
+	ctx.set('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept')
+
+	ctx.set('Access-Control-Allow-Methods', 'POST, GET, PUT, DELETE, OPTIONS')
 
 	switch (ctx.url) {
 
@@ -150,9 +163,11 @@ app.use(async ctx => {
 
 				}).catch(error => {
 
-    				console.log('Sync DB Error: ', error)
-
 					ctx.status = 500
+
+					console.log('Error', error, 'ctx.status', ctx.status)
+
+					next()
 
   				})
 				
@@ -160,13 +175,13 @@ app.use(async ctx => {
 
 					await Counter.findByPk(counter_id).then((result) => {
 
-						console.log('result', result)
+						//console.log('result', result)
+
+						console.log('Counter.findByPk')
 
 						if (result) {
 
 			    			counter = result.COUNTER
-
-			    			console.log('result.COUNTER', counter)
 
 			    			var json_type = mime.lookup('json')
 		        
@@ -178,13 +193,23 @@ app.use(async ctx => {
 
 		    				ctx.status = 200
 					
-							console.log("ctx.body", counter)
+							console.log("COUNTER", counter, "ctx.status", ctx.status)
 
 						} else {
 
 							ctx.status = 204
+
+							console.log('ctx.status', ctx.status)
 						}
-					})
+					}).catch(error => {
+
+					ctx.status = 500
+
+					console.log('Error', error, 'ctx.status', ctx.status)
+
+					next()
+
+  					})
 				}
 
 			} catch (error) {
@@ -192,6 +217,10 @@ app.use(async ctx => {
 				console.log('Error: ', error)
 
 				ctx.status = 500
+
+				console.log('Error', error, 'ctx.status', ctx.status)
+
+				next()
   			}
 
   			console.log("ctx.status", ctx.status)
@@ -200,11 +229,13 @@ app.use(async ctx => {
 
 		case "/pingpong":
 
+			console.log('/pingpong')
+
 			counter = counter + 1
 
 			ctx.body = `<h1>pong ${counter}</h1>`
 
-			console.log("pong " + counter)
+			console.log("PONG" + counter)
 
     		const record = { COUNTER: counter }
 
@@ -215,7 +246,15 @@ app.use(async ctx => {
     			await sequelize.sync().then(() => {
 
 	  				console.log("Sync DB.")
-				})
+
+				}).catch(error => {
+
+					ctx.status = 500
+
+					console.log('Error', error, 'ctx.status', ctx.status)
+
+					next()
+  				})
 
 				const result = await Counter.update(record, {
 
@@ -230,38 +269,55 @@ app.use(async ctx => {
 
     		} catch (error) {
     			
-    			console.log('Error: ', error)
+    			ctx.status = 500
+
+				console.log('Error', error, 'ctx.status', ctx.status)
+
+				next()
   			}
 
 			break;
 
 		case "/healthz":
 
-  			console.log('/healthz', ctx.request.body)
+  			console.log('/healthz')
 
   			try {
 
 				await sequelize.sync().then(() => {
 
-	  				console.log("Sync DB.")
-
 	  				ctx.status = 200
 
-				})
+	  				console.log("Sync DB.", 'ctx.status', ctx.status)
+
+				}).catch(error => {
+
+					ctx.status = 500
+
+					console.log('Error', error, 'ctx.status', ctx.status)
+
+					next()
+
+  				})
 
 			} catch (error) {
 
-				console.log('Error: ', error)
-
 				ctx.status = 500
 
+				console.log('Error', error, 'ctx.status', ctx.status)
+
+				next()
   			}
 
 			break;
 
 		default:
 
+			ctx.status = 404
+
 			ctx.body = `<h1>404</h1>`
+
+			console.log('ctx.status', ctx.status)
 	}
 })
 

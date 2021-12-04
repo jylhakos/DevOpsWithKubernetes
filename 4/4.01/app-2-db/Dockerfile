@@ -1,7 +1,7 @@
 # $ sudo apt-get upgrade docker-ce
 # $ sudo systemctl restart docker.service
 # $ sudo chown -R $USER:$USER /usr/src/app/files
-# $ docker build -t <USER_NAME>/app-2-db:v1 .
+# $ docker build -t <USER_NAME>/app-2-db:v4.01 .
 # $ docker run -p 3001:3001 --name app-2-db <USER_NAME>/app-2-db
 # $ k3d cluster create --port 8082:30080@agent:0 -p 8081:80@loadbalancer --agents 2
 # $ kubectl cluster-info
@@ -46,7 +46,7 @@
 # $ kubectl get all --all-namespaces
 # $ kubectl get pods -n <NAME_SPACE>
 # $ kubectl get nodes -n <NAME_SPACE>
-# $ kubectl describe deployment app-2-db-dep
+# $ kubectl describe deployment app-2-db-dep -n <NAME_SPACE>
 # $ kubectl logs <POD_NAME> -c app-2-db
 # $ kubectl logs <POD_NAME> -n <NAME_SPACE>
 # $ kubectl describe pod <POD_NAME> -n <NAME_SPACE>
@@ -54,10 +54,19 @@
 # $ kubectl expose manifests/service
 # http://localhost:8081/pingpong
 # $ kubectl get jobs --all-namespaces | sed '1d' | awk '{ print $2, "--namespace", $1 }' | while read line; do kubectl delete jobs $line; done
+# $ kubectl rollout undo deployment flaky-update-dep
 
 FROM node:alpine
 
 WORKDIR /usr/src/app
+
+RUN npm install npm@latest -g
+
+RUN npm cache clean --force
+
+RUN npm config rm proxy 
+
+RUN npm config rm https-proxy
 
 COPY package* ./
 

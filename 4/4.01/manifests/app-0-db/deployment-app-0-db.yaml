@@ -19,11 +19,14 @@ spec:
             claimName: image-claim
       containers:
         - name: app-0-db
-          #image: jylhakos/app-0-db:v1
-          image: jylhakos/app-0-db
+          image: jylhakos/app-0-db:v4.02
+          #image: jylhakos/app-0-db
+          ports:
+          - containerPort: 3000
+            name: app-0-db
           envFrom:
-            - configMapRef:
-                name: app-db-env
+            #- configMapRef:
+            #    name: app-db-env
           volumeMounts:
           - name: shared-image
             mountPath: /usr/src/app/files
@@ -32,4 +35,4 @@ spec:
             periodSeconds: 5
             httpGet:
                path: /healthz
-               port: 3541
+               port: 3000

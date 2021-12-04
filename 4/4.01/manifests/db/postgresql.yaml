@@ -22,9 +22,11 @@ spec:
               value: "-A md5"
             - name: PGDATA
               value: /var/lib/postgresql/data
-          envFrom:
-            - configMapRef:
-                name: app-db-env
+            - name: POSTGRES_PASSWORD
+              value: postgres
+          #envFrom:
+          #  - configMapRef:
+          #      name: app-db-env
           ports:
           - containerPort: 5432
             name: postgresql-port

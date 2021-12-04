@@ -14,10 +14,10 @@ const http = require('http')
 
 // k8s networking
 const options = {
-  //hostname: 'app-2-db-svc',
-  hostname: 'localhost',
-  // port: 80,
-  port: 3001,
+  hostname: 'app-2-db-svc',
+  //hostname: 'localhost',
+  port: 80,
+  //port: 3001,
   path: '/',
   method: 'GET'
 }
@@ -26,66 +26,65 @@ var counter = 0
 
 const getContent = async () => new Promise(result => {
 
-    console.log('getContent')
+  console.log('getContent')
 
-    var counter = null
+  var counter = null
 
-    const request = http.request(options, response => {
+  const request = http.request(options, response => {
 
-      console.log('response', response)
+    response.on('data', data => {
 
-      response.on('data', data => {
+      const statusCode = response.statusCode
 
-        const statusCode = response.statusCode
+      if (statusCode == 500) {
 
-        if (statusCode == 500) {
+        result('Error')
 
-          result('Error')
+      }
+      else if (statusCode == 204) {
 
-        }
-        else if (statusCode == 204) {
+        result('No Content')
 
-          result('No Content')
+      }
+      else {
 
-        }
-        else {
+        console.log(`statusCode: ${response.statusCode}`)
 
-          console.log(`statusCode: ${response.statusCode}`)
+        json_data = JSON.parse(data);
 
-          json_data = JSON.parse(data);
+        counter = String(json_data.counter)
 
-          counter = String(json_data.counter)
+        console.log('data', counter)
 
-          console.log('data', counter)
+        response.setEncoding('utf8')
 
-          response.setEncoding('utf8')
-
-          result(counter)
-        }
-      })
+        result(counter)
+      }
     })
+  })
 
-    request.end()
+  request.end()
 
-    console.log('request.end')
+  console.log('request.end')
 
-    request.on('error', error => {
+  request.on('error', error => {
 
-      console.error('http.request', error)
+    console.error('http.request', error)
 
-      result('Error')
+    result('Error')
 
-    })
-
+  })
 })
 
 const hash_string = Math.random().toString(36).substr(2, 6)
 
-app.use(async ctx => {
+app.use(async (ctx, next) => {
 
   switch (ctx.url) {
 
     case "/":
+
+    console.log('GET /')
 
       if (ctx.path.includes('favicon.ico')) return
 
@@ -96,6 +95,8 @@ app.use(async ctx => {
           ctx.status = 500
 
           console.log('ctx.status', ctx.status)
+
+          next()
 
       } else if(counter == 'No Content') {
 
@@ -122,10 +123,9 @@ app.use(async ctx => {
 
     case "/healthz":
 
-        console.log('/healthz', ctx.request)
+        console.log('/healthz')
 
         try {
-
 
           counter = await getContent()
 
@@ -134,6 +134,8 @@ app.use(async ctx => {
             ctx.status = 500
 
             console.log('ctx.status', ctx.status)
+
+            next()
 
           } else if(counter == 'No Content') {
 
@@ -164,7 +166,7 @@ app.use(async ctx => {
       ctx.body = `<h1>404</h1>`
   }
 
-});
+})
 
 app.listen(PORT)
 

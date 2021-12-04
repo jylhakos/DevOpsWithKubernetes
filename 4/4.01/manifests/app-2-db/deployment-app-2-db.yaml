@@ -15,8 +15,8 @@ spec:
     spec:
       containers:
         - name: app-2-db
-          #image: jylhakos/app-2-db:v1
-          image: jylhakos/app-2-db
+          #image: jylhakos/app-2-db
+          image: jylhakos/app-2-db:v4.01
           ports:
           - containerPort: 3001
             name: app-2-db
@@ -35,9 +35,9 @@ spec:
               #  secretKeyRef:
               #    name: postgres-secret-config
               #    key: password
-          envFrom:
-            - configMapRef:
-                name: app-db-env
+          #envFrom:
+            #- configMapRef:
+            #    name: app-db-env
           readinessProbe:
             initialDelaySeconds: 10
             periodSeconds: 5
