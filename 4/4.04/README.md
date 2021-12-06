@@ -2,7 +2,7 @@
 
 sum(rate(container_cpu_usage_seconds_total{namespace="$namespace",pod_name="$podName",container_name="$containerName"}[5m]
 
-![alt text](https://github.com/[username]/[reponame]/blob/[branch]/image.jpg?raw=true)
+![alt text](https://github.com/jylhakos/DevOpsWithKubernetes/blob/main/4/4.04/4.04.png?raw=true)
 
 A link to container CPU utilization
 
