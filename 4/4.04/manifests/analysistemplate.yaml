@@ -1,0 +1,23 @@
+apiVersion: argoproj.io/v1alpha1
+kind: AnalysisTemplate
+metadata:
+  name: backend-containers-cpu-usage
+spec:
+  metrics:
+  - name: backend-containers-cpu-usage
+    initialDelay: 2m
+    interval: 30s
+    count: 60 
+    successCondition: result < 10
+    #successCondition: result < 1
+    provider:
+      prometheus:
+        address: http://kube-prometheus-stack-1638-prometheus.prometheus.svc:9090
+        query: |
+          scalar(
+            sum (rate (container_cpu_usage_seconds_total{namespace="todos-db-namespace", container_name!="POD", container=~"todo-backend-db|todo-response-db|todo-finder"}[10m])) / sum (machine_cpu_cores{}) * 100
+          )
+
+          #scalar(
+          #sum(rate (container_cpu_usage_seconds_total{id!="", namespace="todos-db-namespace"}[10m]) * 100)
+          #)
