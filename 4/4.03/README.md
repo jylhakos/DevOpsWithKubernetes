@@ -22,7 +22,7 @@ $ kubectl port-forward prometheus-kube-prometheus-stack-1638-prometheus-0 9090:9
 
 $ netstat -ntlp | grep 9090
 
-![alt text](https://github.com/[username]/[reponame]/blob/[branch]/image.jpg?raw=true)
+![alt text](https://github.com/jylhakos/DevOpsWithKubernetes/blob/main/4/4.03/4.03.png?raw=true)
 
 A link to Prometheus
 
