@@ -1,0 +1,44 @@
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: postgresql-ss
+  #namespace: todos-db-namespace
+spec:
+  serviceName: postgresql-svc
+  selector:
+    matchLabels:
+      app: postgresql-db
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: postgresql-db
+    spec:
+      containers:
+        - name: postgresql
+          image: postgres:latest
+          env:
+            - name: POSTGRES_INITDB_ARGS
+              value: "-A md5"
+            - name: PGDATA
+              value: /var/lib/postgresql/data/
+            - name: POSTGRES_PASSWORD
+              value: postgres
+          #envFrom:
+          #  - configMapRef:
+          #      name: app-db-env
+          ports:
+          - containerPort: 5432
+            name: postgresql-port
+          volumeMounts:
+            - name: postgresql-data
+              mountPath: /var/lib/postgresql/data/
+  volumeClaimTemplates:
+    - metadata:
+        name: postgresql-data
+        namespace: app-db-namespace
+      spec:
+        accessModes: ["ReadWriteOnce"]
+        resources:
+          requests:
+            storage: 1Gi

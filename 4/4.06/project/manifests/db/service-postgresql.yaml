@@ -1,0 +1,17 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: postgresql-svc
+  #namespace: todos-db-namespace
+  labels:
+    app: postgresql-app
+spec:
+  type: ClusterIP
+  clusterIP: None
+  selector:
+    app: postgresql-db
+  ports:
+  - name: postgresql-port
+    port: 5432
+    protocol: TCP
+    targetPort: 5432
