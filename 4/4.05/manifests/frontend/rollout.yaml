@@ -1,0 +1,56 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Rollout
+metadata:
+  name: todos-frontend-db-update-dep
+  namespace: todos-db-namespace
+spec:
+  replicas: 4
+  selector:
+    matchLabels:
+      app: todos-frontend-db-update
+  strategy:
+    canary:
+      steps:
+      - analysis:
+          templates:
+          - templateName: frontend-containers-cpu-usage
+      - setWeight: 25
+      - pause:
+          duration: 30s
+      - setWeight: 50
+      - pause:
+          duration: 30s
+  template:
+    metadata:
+      labels:
+        app: todos-frontend-db-update
+    spec:
+      containers:
+        - name: todo-finder
+          image: jylhakos/todo-finder
+          envFrom:
+            - configMapRef:
+                name: app-db-env
+          volumeMounts:
+          - name: shared-image
+            mountPath: /usr/src/app/files
+        - name: todo-response-db
+          image: jylhakos/todo-response-db:v4.05
+          envFrom:
+            - configMapRef:
+                name: app-db-env
+          volumeMounts:
+          - name: shared-image
+            mountPath: /usr/src/app/files
+          readinessProbe:
+            initialDelaySeconds: 15
+            periodSeconds: 30
+            httpGet:
+               path: /healthz
+               port: 3000
+          livenessProbe:
+            initialDelaySeconds: 30
+            periodSeconds: 60
+            httpGet:
+               path: /healthz
+               port: 3000

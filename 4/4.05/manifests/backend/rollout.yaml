@@ -1,0 +1,59 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Rollout
+metadata:
+  name: todos-backend-db-update-dep
+  namespace: todos-db-namespace
+spec:
+  replicas: 4
+  selector:
+    matchLabels:
+      app: todos-backend-db-update
+  strategy:
+    canary:
+      steps:
+      - analysis:
+          templates:
+          - templateName: backend-containers-cpu-usage
+      steps:
+      - setWeight: 25
+      - pause:
+          duration: 30s
+      - setWeight: 50
+      - pause:
+          duration: 30s
+  template:
+    metadata:
+      labels:
+        app: todos-backend-db-update
+    spec:
+      volumes:
+          - name: data-volume
+            emptyDir: {}
+      containers:
+        - name: todo-backend-db
+          image: jylhakos/todo-backend-db:v4.05
+          volumeMounts:
+            - name: data-volume
+              mountPath: /etc/data
+              readOnly: false
+          env:
+            - name: DB_HOST
+              value: postgresql-svc
+            - name: POSTGRES_PASSWORD
+              value: postgres
+            - name: BACKEND_PORT
+              value: "3002"
+            - name: POSTGRES_PASSWORD
+              value: postgres
+          readinessProbe:
+            initialDelaySeconds: 15
+            periodSeconds: 30
+            httpGet:
+               path: /healthz
+               port: 3002
+          livenessProbe:
+            initialDelaySeconds: 30
+            periodSeconds: 60
+            httpGet:
+               path: /healthz
+               port: 3002

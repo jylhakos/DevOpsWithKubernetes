@@ -361,9 +361,9 @@ const unknownUrl = (request, response) => {
 
 app.use(unknownUrl)
 
-//const PORT = process.env.BACKEND_PORT || 3002
+const PORT = process.env.BACKEND_PORT || 3002
 
-const PORT = 3002
+//const PORT = 3002
 
 const success = initialize()
 

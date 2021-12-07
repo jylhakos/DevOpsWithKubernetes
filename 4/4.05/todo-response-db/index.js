@@ -2,6 +2,14 @@
 
 //var bodyParser = require('koa-body')
 
+//var serve = require('koa-static')
+
+//const app = new Koa()
+
+//const Router = require('@koa/router')
+
+//const router = new Router()
+
 const path = require('path')
 
 const fs = require('fs')
@@ -9,8 +17,6 @@ const fs = require('fs')
 const fs_ex = require('fs-extra')
 
 const mime = require('mime-types')
-
-var serve = require('koa-static')
 
 const service = require('./services/todos')
 
@@ -22,15 +28,9 @@ const app = express()
 
 app.use(express.json())
 
-//const app = new Koa()
+const PORT = process.env.FRONTEND_PORT || 3000
 
-//const Router = require('@koa/router')
-
-//const router = new Router()
-
-//const PORT = process.env.FRONTEND_PORT || 3000
-
-const PORT = 3000
+//const PORT = 3000
 
 console.log('process.env.FRONTEND_PORT', process.env.FRONTEND_PORT)
 
@@ -213,7 +213,6 @@ async function initialize() {
         
         var todo = result[i]
 
-        //todos.push(todo.content)
         todos.push(todo)
 
         console.log(todo)
@@ -292,7 +291,6 @@ app.get("/todos", async (request, response) => {
     console.log('redirect')
 
     response.redirect('back')
-
 
   }).catch(error => {
 
@@ -378,134 +376,6 @@ app.post("/todos", async (request, response) => {
     response.status(status).send(body)
   })
 })
-
-//app.use(router.routes())
-
-//app.use(router.allowedMethods())
-
-/*app.use(async (ctx, next) => {
-
-  console.log('ctx.url', ctx.url)
-
-  //ctx.set('Access-Control-Allow-Origin', '*')
-
-  //ctx.set('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept')
-
-  //ctx.set('Access-Control-Allow-Methods', 'POST, GET, PUT, DELETE, OPTIONS')
-
-  if (ctx.url === '/' && ctx.method === 'GET') {
-
-    console.log(ctx.method)
-
-    ctx.body = await render()
-
-    console.log('html', ctx.body)
-
-  } else if (ctx.url === '/todos/:id' && ctx.method === 'PUT') {
-
-    var id = ctx.params.id
-
-    console.log("PUT", id)
-
-  }
-    else if (ctx.url === '/todos' && ctx.method === 'GET') {
-    
-    console.log('ctx', ctx.method, ctx.url, ctx.origin)
-
-    await initialize().then(() => {
-
-      console.log('redirect', ctx.origin)
-
-      ctx.redirect(ctx.origin)
-
-    }).catch(error => {
-
-        ctx.status = 500
-
-        ctx.body = `<p>Internal Server Error</p>`
-
-        console.log('Error', error, 'ctx.status', ctx.status)
-
-        next()
-    })
-
-  } else if(ctx.url === "/healthz" && ctx.method === 'GET') {
-
-    console.log('/healthz')
-
-    try {
-
-      await initialize().then(() => {
-
-        ctx.status = 200
-
-        ctx.body = `<p>200</p>`
-
-      }).catch(error => {
-
-        ctx.status = 500
-
-        ctx.body = `<p>Internal Server Error</p>`
-
-        console.log('Error', error, 'ctx.status', ctx.status)
-
-        next()
-      })
-
-    } catch (error) {
-
-      ctx.status = 500
-
-      ctx.body = `<p>Internal Server Error</p>`
-
-      console.log('Error', error, 'ctx.status', ctx.status)
-
-      next()
-    }
-  }
-  else if (ctx.url === '/todos' && ctx.method === 'POST') {
-  
-    var data = ctx.request.body
-
-    console.log("POST", data.content)
-
-    const todo = {
-      content: data.content,
-      date: new Date().toISOString()
-    }
-
-    await create(todo).then(() => {
-
-      console.log('created', todo)
-
-    })
-
-    //service.create(todo).then(result => {
-
-      //todos.push(result.content)
-
-      //console.log('todos', todos)
-    //})
-
-    await initialize().then(() => {
-
-      console.log('initialized', todos)
-
-    })
-
-    await render().then((body) => {
-
-      console.log('html', body)
-    
-      ctx.body = body
-
-      ctx.status = 200
-
-      ctx.redirect(ctx.origin)
-
-    })
-  }
-})*/
 
 function updateFile() {
 
