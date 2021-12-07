@@ -15,14 +15,23 @@ $ kubectl apply -f manifests/frontend/ -n todos-db-namespace
 ## .env
 
 BACKEND_URL=http://backend-db-service/todos
+
 FRONTEND_PORT=3000
+
 FINDER_PORT=3001
+
 BACKEND_PORT=3002
+
 PGDATA=/var/lib/postgresql/data/
+
 DB_HOST=postgresql-svc
+
 DB_PORT=5432
+
 DB_SCHEMA=postgres
+
 DB_USER=postgres
+
 POSTGRES_HOST_AUTH_METHOD=trust
 
 ![alt text](https://github.com/jylhakos/DevOpsWithKubernetes/blob/main/4/4.05/4.05.png?raw=true)
