@@ -1,0 +1,10 @@
+# $ docker build -t jylhakos/kube-cluster-dwk .
+# $ docker push jylhakos/kube-cluster-dwk
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+resources:
+- manifests/deployment.yaml
+images:
+- name: IMAGE_PLACEHOLDER
+  newName: jylhakos/kube-cluster-dwk
+  newTag: v1.0
