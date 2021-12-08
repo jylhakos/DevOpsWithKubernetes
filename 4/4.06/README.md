@@ -54,5 +54,5 @@ Slack Nats
 
 https://github.com/natsflow/slack-nats
 
-![alt text](https://github.com/[username]/[reponame]/blob/[branch]/image.jpg?raw=true)
+![alt text](https://github.com/jylhakos/DevOpsWithKubernetes/blob/main/4/4.06/project/4.06.png?raw=true)
 
