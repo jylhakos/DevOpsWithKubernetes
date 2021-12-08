@@ -20,7 +20,7 @@ var SLACK_MSG = {
   "text": "todo"
 }
 
-const connect_nats = async (server) => {
+const connector = async (server) => {
 
   console.log('NATS connect', server)
 
@@ -59,7 +59,7 @@ const publisher = async (nc2) => {
 
   console.log("NATS published")
 
-  //await nc.closed()
+  await nc.closed()
 }
 
 const subscriber = async (nc1) => {
@@ -79,27 +79,37 @@ const subscriber = async (nc1) => {
 
   const sc = StringCodec()
 
-  const ready = await new Promise((resolve) => {
+  const sub = nc.subscribe("todos")
 
-    var subscription = null
+  console.log("NATS await subscribed")
+
+  for await (const m of sub) {
+      console.log(`[${sub.getProcessed()}]: ${sc.decode(m.data)}`);
+  }
+
+  nc.publish('todos', sc.encode('todo read'))
+
+  console.log("NATS published")
+
+  nc.unsubscribe('todos')
+
+  await nc.closed()
+
+  /*const ready = await new Promise((resolve) => {
 
     subscription = nc.subscribe('todos', (msg) => {
 
-      console.log("NATS subscribed", msg)
+      console.log("NATS subscribed", sc.decode(msg.data))
 
       resolve(subscription)
 
     })
 
-    nc.publish('todos', sc.encode('broadcaster received todo'))
-
-    console.log("NATS published")
-
   })
 
   nc.unsubscribe(ready)
 
-  //await nc.closed()
+  await nc.closed()*/
 }
 
-module.exports = {subscriber, publisher, connect_nats}
+module.exports = {subscriber, publisher, connector}

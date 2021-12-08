@@ -16,7 +16,7 @@ async function connect_server(server) {
 
   try {
 
-    const connected = await service.connect_nats(server)
+    const connected = await service.connector(server)
 
     console.log('NATS', connected)
 
@@ -92,8 +92,6 @@ const nc1 = connect_services(nats_server)
 
 var slack_server = "slack_server"
 
-//const nc2 = connect_services(slack_server)
+const nc2 = connect_services(slack_server)
 
-const nc2 = connect_services(nats_server)
-
-setInterval(broadcast_service, 5000, nc1, nc2)
+setInterval(broadcast_service, 6*1000, nc1, nc2)
