@@ -48,6 +48,8 @@ $ curl 'http://localhost:9090/api/v1/query?query=nats_varz_cpu'
 
 {"status":"success","data":{"resultType":"vector","result":[{"metric":{"__name__":"nats_varz_cpu","container":"metrics","endpoint":"metrics","instance":"10.42.2.70:7777","job":"todos-nats","namespace":"default","pod":"todos-nats-0","server_id":"NCIH3J5TTBS7LHHCRLRMWT4KCUMAWBP2SHCYTPLUTRWABD5NCVXL6EQV","service":"todos-nats"},"value":[1638779099.682,"0"]}]}}
 
+$ kubectl port-forward todos-nats-0 4222:0.0.0.0:4222
+
 Slack Nats
 
 https://github.com/natsflow/slack-nats

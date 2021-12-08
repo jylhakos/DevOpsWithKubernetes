@@ -1,6 +1,6 @@
-# $ docker build -t <USER_NAME>/todo-backend-db:v4.10 .
+# $ docker build -t <USER_NAME>/todo-backend-db:v4.24 .
 # $ docker push <USER_NAME>/todo-backend-db:v4.05
-# $ docker exec k3d-k3s-default-agent-0 mkdir -p /var/lib/postgresql/data/pgdata
+# $ docker exec k3d-k3s-default-agent-0 mkdir -p /var/lib/postgresql/data/
 # $ docker exec k3d-k3s-default-agent-0 mkdir -p /tmp/kube
 # $ kubectl create namespace <NAME_SPACE>
 # $ kubectl delete configmap app-db-env -n todos-db-namespace

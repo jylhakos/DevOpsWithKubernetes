@@ -1,5 +1,5 @@
 # $ docker build -t <USER_NAME>/broadcaster .
-# $ kubectl apply -f manifests/broadcaster -n todos-db-namespace
+# $ kubectl apply -f manifests/broadcaster
 # $ sudo apt-get install helm
 # $ helm repo add prometheus-community https://prometheus-community.github.io/helm-charts
 # $ helm repo add stable https://charts.helm.sh/stable

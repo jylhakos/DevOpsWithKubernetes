@@ -18,7 +18,7 @@ spec:
             emptyDir: {}
       containers:
         - name: todo-backend-db
-          image: jylhakos/todo-backend-db:v4.10
+          image: jylhakos/todo-backend-db:v4.24
           volumeMounts:
             - name: data-volume
               mountPath: /etc/data

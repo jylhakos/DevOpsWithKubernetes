@@ -28,16 +28,17 @@ app.use(express.json())
 
 const NATS = require('nats')
 
-//const NATS_URL = 'nats://todos-nats:4222'
+const { connect, StringCodec } = require("nats")
 
-const NATS_URL = 'nats://nats:4222'
+const sc = StringCodec()
 
-const nc = NATS.connect({
-  //url: process.env.NATS_URL || 'nats://todos-nats:4222'
-  url: NATS_URL
-})
+const NATS_URL = 'nats://todos-nats:4222'
+
+//url: process.env.NATS_URL || 'nats://todos-nats:4222'
 
 console.log("NATS", NATS_URL)
+
+var nc = null
 
 const requestLogger = (request, response, next) => {
 
@@ -110,6 +111,19 @@ const filePath = path.join(directory, '/', 'url.txt')
 
 console.log(filePath)
 
+const setup_nats = async () => {
+
+  console.log('NATS connect', NATS_URL)
+
+  nc = await NATS.connect({servers: NATS_URL})  
+
+  //const nc = await connect({servers: 'todos-nats:4222'})
+
+  nc.publish("todos", sc.encode("NATS connected"))
+
+  console.log('NATS connected')
+}
+
 const initialize = (async () => {
 
   try {
@@ -150,6 +164,21 @@ const initialize = (async () => {
     console.log(error)
 
   }
+
+  try {
+
+    console.log('await setup_nats')
+
+    await setup_nats()
+
+    console.log('waited setup_nats')
+
+  } catch (error) {
+
+    console.log('NATS', error)
+
+  }
+
 })
 
 app.get('/', (request, response) => {
@@ -217,6 +246,13 @@ app.get('/todos', async function(request, response) {
     }
 
   response.json(todos)
+
+  if (nc) {
+
+    nc.publish("todos", sc.encode("todos query"))
+
+    console.log("todos query")
+  }
 
 })
 
@@ -299,7 +335,12 @@ app.post('/todos', async function(request, response) {
       }
     })
 
-    nc.publish("todos", "todo saved")
+    if (nc) {
+
+      nc.publish("todos", sc.encode("todo saved"))
+
+      console.log('NATS published')
+    }
 
   } catch (error) {
 
@@ -353,7 +394,13 @@ app.put('/todos/:id', async (request, response) => {
 
       console.log('Todos.update', result)
 
-      nc.publish("todos", "todo updated")
+      if (nc) {
+      
+        nc.publish("todos", sc.encode("todo updated"))
+
+        console.log('NATS published')
+
+      }
 
     } catch (error) {
 

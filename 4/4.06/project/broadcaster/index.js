@@ -1,31 +1,99 @@
 // $ npm install --save nats@latest
 
-const NATS = require('nats')
+const service = require('./services/subscriber_publisher')
 
-require('dotenv').config()
+const express = require('express')
 
-const nc = NATS.connect({
-  url: process.env.NATS_URL || 'nats://todos-nats:4222'
-})
+const app = express()
 
-console.log(`NATS: ${nc}`)
+app.use(express.json())
 
-const sub = nc.subscribe("todos")
+const PORT = 3004
 
-const main = async () => {
+async function connect_server(server) {
 
-  console.log('main')
+  console.log('connect_server')
 
-  for await (const m of sub) {
+  try {
 
-    console.log(`[${sub.getProcessed()}]: ${m.data}`)
-  }
+    const connected = await service.connect_nats(server)
 
-  nc.publish("done", "todo");
+    console.log('NATS', connected)
 
-  console.log("done")
+    return connected
 
-  main()
+   } catch (error) {
+
+      console.error(error)
+
+      return null
+   }
 }
 
-main() 
+async function subscriber(nc) {
+
+  console.log('subscriber')
+
+  try {
+
+    const subscribed = await service.subscriber()
+
+    console.log('NATS', subscribed)
+
+   } catch (error) {
+
+      console.error(error)
+   }
+}
+
+async function publisher(nc) {
+
+  console.log('publisher')
+
+  try {
+
+    const published = await service.publisher(nc)
+
+    console.log('NATS', published)
+
+   } catch (error) {
+
+      console.error(error)
+   }
+}
+
+async function broadcast_service(nc1, nc2) {
+
+  console.log('broadcast_service')
+
+  await subscriber(nc1)
+
+  await publisher(nc2)
+
+}
+
+async function connect_services(server) {
+
+  console.log('connect_services')
+
+  const connect_broadcast = await connect_server(server)
+
+  return connect_broadcast
+
+}
+
+app.listen(PORT)
+
+console.log('PORT: ' + PORT)
+
+var nats_server = "nats_server"
+
+const nc1 = connect_services(nats_server)
+
+var slack_server = "slack_server"
+
+//const nc2 = connect_services(slack_server)
+
+const nc2 = connect_services(nats_server)
+
+setInterval(broadcast_service, 5000, nc1, nc2)

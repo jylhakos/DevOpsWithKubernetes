@@ -31,6 +31,9 @@ spec:
           envFrom:
             - configMapRef:
                 name: app-db-env
+          env:
+            - name: BACKEND_URL
+              value: http://backend-db-service/todos
           volumeMounts:
           - name: shared-image
             mountPath: /usr/src/app/files
