@@ -1,0 +1,22 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: broadcaster-dep
+  #namespace: todos-db-namespace
+spec:
+  #replicas: 10
+  replicas: 1
+  selector:
+    matchLabels:
+      app: broadcaster
+  template:
+    metadata:
+      labels:
+        app: broadcaster
+    spec:
+      containers:
+        - name: broadcaster
+          image: jylhakos/broadcaster
+          env:
+            - name: NATS_URL
+              value: nats://todos-nats:4222

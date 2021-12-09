@@ -1,0 +1,51 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: todos-backend-db-dep
+  #namespace: todos-db-namespace
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: todos-backend-db
+  template:
+    metadata:
+      labels:
+        app: todos-backend-db
+    spec:
+      volumes:
+          - name: data-volume
+            emptyDir: {}
+      containers:
+        - name: todo-backend-db
+          image: jylhakos/todo-backend-db:v4.24
+          volumeMounts:
+            - name: data-volume
+              mountPath: /etc/data
+              readOnly: false
+          env:
+            - name: DB_HOST
+              value: postgresql-svc
+            - name: POSTGRES_PASSWORD
+              value: postgres
+            - name: BACKEND_PORT
+              value: "3002"
+            - name: POSTGRES_PASSWORD
+              value: postgres
+            - name: NATS_URL
+              value: nats://todos-nats:4222
+          #envFrom:
+          #  - configMapRef:
+          #      name: app-db-env
+          readinessProbe:
+            initialDelaySeconds: 15
+            periodSeconds: 30
+            httpGet:
+               path: /healthz
+               port: 3002
+          livenessProbe:
+            initialDelaySeconds: 30
+            periodSeconds: 60
+            httpGet:
+               path: /healthz
+               port: 3002

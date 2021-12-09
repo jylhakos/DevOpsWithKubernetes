@@ -1,0 +1,10 @@
+apiVersion: source.toolkit.fluxcd.io/v1beta1
+kind: GitRepository
+metadata:
+  name: todos-repo
+  namespace: flux-system
+spec:
+  interval: 10m
+  url: https://github.com/jylhakos/kube-cluster-todos
+  ref:
+    branch: main

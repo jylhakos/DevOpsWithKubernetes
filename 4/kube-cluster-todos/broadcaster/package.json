@@ -1,0 +1,22 @@
+{
+  "name": "broadcaster",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "start": "node index.js",
+    "dev": "nodemon index.js"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "curl": "^0.1.4",
+    "dotenv": "^10.0.0",
+    "express": "^4.17.1",
+    "faker": "^4.1.0",
+    "nats": "^2.4.0"
+  },
+  "devDependencies": {
+    "nodemon": "^2.0.7"
+  }
+}

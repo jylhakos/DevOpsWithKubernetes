@@ -1,0 +1,18 @@
+apiVersion: monitoring.coreos.com/v1
+kind: ServiceMonitor
+metadata:
+  name: monitoring-nats
+  namespace: prometheus
+  labels:
+    release: kube-prometheus-stack-1638667682
+spec:
+  selector:
+    matchLabels:
+      app.kubernetes.io/name: nats
+  endpoints:
+    - interval: 10s
+      path: /metrics
+      port: metrics
+  namespaceSelector:
+    matchNames:
+      - default

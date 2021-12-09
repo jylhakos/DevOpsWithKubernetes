@@ -1,0 +1,51 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: todos-frontend-db-dep
+  #namespace: todos-db-namespace
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: todos-frontend-db
+  template:
+    metadata:
+      labels:
+        app: todos-frontend-db
+    spec:
+      volumes:
+        - name: shared-image
+          persistentVolumeClaim:
+            claimName: image-claim
+      containers:
+        - name: todo-finder
+          image: jylhakos/todo-finder
+          envFrom:
+            - configMapRef:
+                name: app-db-env
+          volumeMounts:
+          - name: shared-image
+            mountPath: /usr/src/app/files
+        - name: todo-response-db
+          image: jylhakos/todo-response-db:v4.05
+          envFrom:
+            - configMapRef:
+                name: app-db-env
+          env:
+            - name: BACKEND_URL
+              value: http://backend-db-service/todos
+          volumeMounts:
+          - name: shared-image
+            mountPath: /usr/src/app/files
+          readinessProbe:
+            initialDelaySeconds: 15
+            periodSeconds: 30
+            httpGet:
+               path: /healthz
+               port: 3000
+          livenessProbe:
+            initialDelaySeconds: 30
+            periodSeconds: 60
+            httpGet:
+               path: /healthz
+               port: 3000

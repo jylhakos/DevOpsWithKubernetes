@@ -1,0 +1,13 @@
+apiVersion: kustomize.toolkit.fluxcd.io/v1beta1
+kind: Kustomization
+metadata:
+  name: todos-gitops-app
+  namespace: flux-system
+spec:
+  sourceRef:
+    kind: GitRepository
+    name: todos-repo
+  interval: 10m
+  path: ./manifests/**/*
+  prune: true
+  validation: client
