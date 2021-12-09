@@ -1,7 +1,7 @@
 ## Flux
 
 $ flux bootstrap github \
-    --owner=<USERNAME> \
+    --owner=<USER_NAME> \
     --repository=<GIT_REPOSITORY_NAME> \
     --personal \
     --private=false
