@@ -4,8 +4,7 @@
 
 $ linkerd check --pre
 
-Linkerd core checks
-===================
+**Linkerd core checks**
 
 kubernetes-api
 --------------
@@ -66,7 +65,7 @@ A link to service mesh
 https://linkerd.io/
 
 
-![alt text](<PICTURE>?raw=true)
+![alt text](https://github.com/jylhakos/DevOpsWithKubernetes/blob/main/5/5.02/5.02.png?raw=true)
 
 
 
