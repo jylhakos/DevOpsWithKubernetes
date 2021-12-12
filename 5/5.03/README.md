@@ -23,7 +23,7 @@ A link to Linkerd Canary Deployments
 https://docs.flagger.app/tutorials/linkerd-progressive-delivery
 
 
-![alt text](<PICTURE>?raw=true)
+![alt text](https://github.com/jylhakos/DevOpsWithKubernetes/blob/main/5/5.03/5.03.png?raw=true)
 
 
 
