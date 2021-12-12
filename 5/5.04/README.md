@@ -1,6 +1,7 @@
 **Platform comparison**
 
-Rancher :star: :star: :star: :star: :star:
+
+## Rancher :star: :star: :star: :star: :star: ##
 
 Rancher is a software stack allowing enterprises to deploy, scale, and manage containerized applications anywhere. 
 
@@ -12,9 +13,10 @@ A link to documents at Rancher
 
 https://rancher.com/docs/
 
-![alt text](<PICTURE>?raw=true)
+![alt text](https://github.com/jylhakos/DevOpsWithKubernetes/blob/main/5/5.04/Rancher.png?raw=true)
 
-OpenShift :star: :star: :star: :star:
+
+## OpenShift :star: :star: :star: :star: ##
 
 OpenShift is a Kubernetes distribution to deploy applications to one or more hosts.
 
@@ -26,7 +28,7 @@ A link to documents at OpenShift
 
 https://access.redhat.com/products/red-hat-openshift-container-platform/
 
-![alt text](<PICTURE>?raw=true)
+![alt text](https://github.com/jylhakos/DevOpsWithKubernetes/blob/main/5/5.04/OpenShift.png?raw=true)
 
 
 
