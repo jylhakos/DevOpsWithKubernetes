@@ -1,0 +1,16 @@
+kind: ClusterRole
+apiVersion: rbac.authorization.k8s.io/v1
+metadata:
+  name: dummysite-controller-role
+rules:
+- apiGroups: [""]
+  # HTTP level, the name of the resource for accessing Pod objects is "pods"
+  resources: ["pods"]
+  verbs: ["get", "list", "delete"]
+- apiGroups: ["batch"]
+  # HTTP level, the name of the resource for accessing Job objects is "jobs"
+  resources: ["jobs"]
+  verbs: ["get", "list", "watch", "create", "delete"]
+- apiGroups: ["dummysite.dwk"]
+  resources: ["dummysites"]
+  verbs: ["get", "list", "watch", "create", "delete", "patch"]

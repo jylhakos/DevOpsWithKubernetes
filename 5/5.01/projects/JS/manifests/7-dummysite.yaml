@@ -1,0 +1,51 @@
+apiVersion: dummysite.dwk/v1
+kind: DummySite
+metadata:
+  name: dummysite0
+  namespace: dummysite
+spec:
+  website_url: "https://example.com/"
+  image: jylhakos/dummysite
+---
+apiVersion: dummysite.dwk/v1
+kind: DummySite
+metadata:
+  name: dummysite1
+  namespace: dummysite
+spec:
+  website_url: "http://info.cern/"
+  image: jylhakos/dummysite
+---
+apiVersion: dummysite.dwk/v1
+kind: DummySite
+metadata:
+  name: dummysite2
+  namespace: dummysite
+spec:
+  website_url: "https://time.is/"
+  image: jylhakos/dummysite
+---
+apiVersion: dummysite.dwk/v1
+kind: DummySite
+metadata:
+  name: dummysite3
+spec:
+  website_url: "https://text.npr.org/"
+  image: jylhakos/dummysite
+---
+apiVersion: dummysite.dwk/v1
+kind: DummySite
+metadata:
+  name: dummysite4
+spec:
+  website_url: "https://manpages.bsd.lv/"
+  image: jylhakos/dummysite
+---
+apiVersion: dummysite.dwk/v1
+kind: DummySite
+metadata:
+  name: dummysite5
+spec:
+  website_url: "http://textfiles.com/"
+  image: jylhakos/dummysite
+---

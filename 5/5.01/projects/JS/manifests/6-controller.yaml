@@ -1,0 +1,24 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: dummysite-controller-dep
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: dummysite-controller
+  template:
+    metadata:
+      labels:
+        app: dummysite-controller
+    spec:
+      volumes:
+        - name: shared-data
+          emptyDir: {}
+      serviceAccountName: dummysite-controller-account
+      containers:
+        - name: dummysite-controller
+          image: jylhakos/dummysite-controller
+          volumeMounts:
+            - name: shared-data
+              mountPath: /usr/src/app/files
