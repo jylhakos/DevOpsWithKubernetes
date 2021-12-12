@@ -1,0 +1,15 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: backend-db-service
+  namespace: todos-db-namespace
+spec:
+  ports:
+  - name: http
+    port: 80
+    protocol: TCP
+    targetPort: 3002
+  selector:
+    app: todos-backend-db
+  type: ClusterIP
+---

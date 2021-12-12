@@ -1,0 +1,45 @@
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: postgresql-ss
+  namespace: todos-db-namespace
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: postgresql-db
+  serviceName: postgresql-svc
+  template:
+    metadata:
+      annotations:
+        linkerd.io/inject: enabled
+      labels:
+        app: postgresql-db
+    spec:
+      containers:
+      - env:
+        - name: POSTGRES_INITDB_ARGS
+          value: -A md5
+        - name: PGDATA
+          value: /var/lib/postgresql/data/
+        - name: POSTGRES_PASSWORD
+          value: postgres
+        image: postgres:latest
+        name: postgresql
+        ports:
+        - containerPort: 5432
+          name: postgresql-port
+        volumeMounts:
+        - mountPath: /var/lib/postgresql/data/
+          name: postgresql-data
+  volumeClaimTemplates:
+  - metadata:
+      name: postgresql-data
+      namespace: app-db-namespace
+    spec:
+      accessModes:
+      - ReadWriteOnce
+      resources:
+        requests:
+          storage: 1Gi
+---

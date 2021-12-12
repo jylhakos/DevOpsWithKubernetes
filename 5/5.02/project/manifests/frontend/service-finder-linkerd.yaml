@@ -1,0 +1,16 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: todo-finder-svc
+  namespace: todos-db-namespace
+spec:
+  ports:
+  - name: http
+    nodePort: 30080
+    port: 1234
+    protocol: TCP
+    targetPort: 3001
+  selector:
+    app: todos-frontend-db
+  type: NodePort
+---

@@ -1,0 +1,54 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: todos-frontend-db-dep
+  namespace: todos-db-namespace
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: todos-frontend-db
+  template:
+    metadata:
+      annotations:
+        linkerd.io/inject: enabled
+      labels:
+        app: todos-frontend-db
+    spec:
+      containers:
+      - envFrom:
+        - configMapRef:
+            name: app-db-env
+        image: jylhakos/todo-finder
+        name: todo-finder
+        volumeMounts:
+        - mountPath: /usr/src/app/files
+          name: shared-image
+      - env:
+        - name: BACKEND_URL
+          value: http://backend-db-service/todos
+        envFrom:
+        - configMapRef:
+            name: app-db-env
+        image: jylhakos/todo-response-db:v4.05
+        livenessProbe:
+          httpGet:
+            path: /healthz
+            port: 3000
+          initialDelaySeconds: 30
+          periodSeconds: 60
+        name: todo-response-db
+        readinessProbe:
+          httpGet:
+            path: /healthz
+            port: 3000
+          initialDelaySeconds: 15
+          periodSeconds: 30
+        volumeMounts:
+        - mountPath: /usr/src/app/files
+          name: shared-image
+      volumes:
+      - name: shared-image
+        persistentVolumeClaim:
+          claimName: image-claim
+---
