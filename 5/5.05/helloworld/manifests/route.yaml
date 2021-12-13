@@ -1,0 +1,8 @@
+apiVersion: serving.knative.dev/v1
+kind: Route
+metadata:
+  name: tester-route
+spec:
+  traffic:
+    - revisionName: helloworld-go-dwk-message-v3
+      percent: 100

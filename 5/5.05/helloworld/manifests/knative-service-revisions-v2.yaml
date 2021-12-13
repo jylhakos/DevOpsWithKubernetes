@@ -1,0 +1,19 @@
+apiVersion: serving.knative.dev/v1
+kind: Service
+metadata:
+  name: helloworld-go
+spec:
+  template:
+    metadata:
+      name: helloworld-go-dwk-message-v3 # v3
+    spec:
+      containers:
+        - image: gcr.io/knative-samples/helloworld-go
+          env:
+            - name: TARGET
+              value: "DwK-but-extreme" # Changed content
+  traffic: # traffic enables us to split traffic between multiple revisions!
+  - revisionName: helloworld-go-dwk-message-v1
+    percent: 50
+  - revisionName: helloworld-go-dwk-message-v2
+    percent: 50
