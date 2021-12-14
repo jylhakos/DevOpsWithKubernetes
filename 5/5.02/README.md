@@ -1,8 +1,10 @@
 **A service mesh for Kubernetes**
  
-```$ curl -fsL https://run.linkerd.io/install | sh```
+```
+$ curl -fsL https://run.linkerd.io/install | sh
 
 $ linkerd check --pre
+```
 
 **Linkerd core checks**
 
@@ -50,16 +52,19 @@ linkerd-version
 
 Status check results are √
 
+```
 $ kubectl get -n <NAMESPACE> deploy -o yaml \ 
 						   | linkerd inject -  \ 
 						   | kubectl apply -f -
+```
 
 Meshing a Kubernetes resource is done by annotating the resource, or its namespace, with the linkerd.io/inject: enabled Kubernetes annotation.
 
+```
 $ cat <DEPLOYMENT.YAML> | linkerd inject - | kubectl apply -f -
 
 $ echo "$(cat <DEPLOYMENT.YAML> | linkerd inject -)" > <DEPLOYMENT.YAML>
-
+```
 A link to service mesh
 
 https://linkerd.io/
