@@ -1,10 +1,10 @@
 **Automated Canary Releases**
 
-```$ kubectl apply -k github.com/fluxcd/flagger/kustomize/linkerd```
+```$ kubectl apply -k github.com/fluxcd/flagger/kustomize/linkerd
 
-```$ kubectl -n linkerd rollout status deploy/flagger```
+$ kubectl -n linkerd rollout status deploy/flagger
 
-```$ kubectl -n todos-db-namespace get svc```
+$ kubectl -n todos-db-namespace get svc```
 
 NAME                           TYPE        CLUSTER-IP      EXTERNAL-IP   PORT(S)    AGE
 
@@ -23,7 +23,7 @@ A link to Linkerd Canary Deployments
 https://docs.flagger.app/tutorials/linkerd-progressive-delivery
 
 
-![alt text](<PICTURE>?raw=true)
+![alt text](https://github.com/jylhakos/DevOpsWithKubernetes/blob/main/5/5.03/manifests/5.03.png?raw=true)
 
 
 
