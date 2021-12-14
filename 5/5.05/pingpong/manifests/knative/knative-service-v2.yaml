@@ -1,0 +1,29 @@
+apiVersion: serving.knative.dev/v1
+kind: Service
+metadata:
+  name: app-2-db
+spec:
+  template:
+    metadata:
+      name: app-2-db-app-v2
+    spec:
+      containers:
+        - image: docker.io/jylhakos/app-2-db:v4.02
+          ports:
+            - containerPort: 8080
+            #-containerPort: 3001
+          env:
+            - name: DB_HOST
+              value: postgresql-svc
+          envFrom:
+            - configMapRef:
+                name: app-db-env
+          livenessProbe:
+            httpGet:
+              path: /healthz
+          readinessProbe:
+            httpGet:
+              path: /healthz
+  traffic:
+    - revisionName: app-2-db-app
+      percent: 100

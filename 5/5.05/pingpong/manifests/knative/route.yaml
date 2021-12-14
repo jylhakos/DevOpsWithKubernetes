@@ -1,0 +1,8 @@
+apiVersion: serving.knative.dev/v1
+kind: Route
+metadata:
+  name: app-2-db-route
+spec:
+  traffic:
+    - revisionName: app-2-db-app-v2
+      percent: 100
