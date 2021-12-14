@@ -52,7 +52,9 @@ INFO[0025] Cluster 'k3s-default' created successfully!
 
 INFO[0025] You can now use it like this: 
 
+```
 $ kubectl cluster-info
+```
 
 ## Knative ##
 
