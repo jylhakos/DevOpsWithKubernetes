@@ -1,6 +1,7 @@
 **https://example.com/**
  
-```html_text <!doctype html>
+```
+html_text <!doctype html>
 <html>
 <head>
     <title>Example Domain</title>
@@ -45,4 +46,5 @@
     <p><a href="https://www.iana.org/domains/example">More information...</a></p>
 </div>
 </body>
-</html>```
+</html>
+```
