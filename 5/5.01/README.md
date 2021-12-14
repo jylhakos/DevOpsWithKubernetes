@@ -10,9 +10,9 @@
 Install kubebuilder
 ```
 $ ./install.sh
-```
-$ mkdir <DIRECTORY>
 
+$ mkdir <PROJECT_DIRECTORY>
+```
 Initializing a project
 ```
 $ go mod init <PROJECT.DOMAIN>
@@ -25,7 +25,6 @@ $ kubebuilder init --plugins go/v3 --domain <PROJECT.DOMAIN> --repo <REPOSITORY>
 Create new Kubernetes API, CRD and Controller
 ```
 $ kubebuilder create api --group <GROUP> --version v3 --kind <RESOURCE>
-
 
 ``` 
 **CustomResourceDefinitions**
@@ -42,20 +41,23 @@ Make `make`
 
 deploy CRD's to your cluster `make install`
 
+```
 $ make run 
+```
 
 Apply an application 
 
-`$ kubectl apply -f manifests/<FILE>.yaml`
+```
+$ kubectl apply -f manifests/<FILE>.yaml
+```
 
 **Docker**
 
 Deployment to Docker
 ```
 $ make docker-build docker-push IMG=<USER_NAME>/<IMAGE_NAME>
-```
 
-```
+
 $ kubectl apply -f ./manifests/
 ```
 
