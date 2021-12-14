@@ -2,7 +2,9 @@
 
 ## k3d ##
 
-```$ k3d cluster create --port 8082:30080@agent:0 -p 8081:80@loadbalancer --agents 2 --k3s-arg "--disable=traefik@server:0"```
+```
+$ k3d cluster create --port 8082:30080@agent:0 -p 8081:80@loadbalancer --agents 2 --k3s-arg "--disable=traefik@server:0"
+```
 
 INFO[0000] portmapping '8081:80' targets the loadbalancer: defaulting to [servers:*:proxy agents:*:proxy]
 
@@ -54,9 +56,11 @@ $ kubectl cluster-info
 
 ## Knative ##
 
-```$ kubectl apply -f https://github.com/knative/serving/releases/download/knative-v1.0.0/serving-crds.yaml```
+```
+$ kubectl apply -f https://github.com/knative/serving/releases/download/knative-v1.0.0/serving-crds.yaml
 
-```$ kubectl apply -f https://github.com/knative/serving/releases/download/knative-v1.0.0/serving-core.yaml```
+$ kubectl apply -f https://github.com/knative/serving/releases/download/knative-v1.0.0/serving-core.yaml
+```
 
 By default, all incoming requests to your Knative service are sent to port 8080.
 
@@ -66,12 +70,15 @@ https://knative.dev/docs/install/serving/install-serving-with-yaml/
 
 ## Contour ##
 
-```$ kubectl apply -f https://github.com/knative/net-contour/releases/download/knative-v1.0.0/contour.yaml```
+```
+$ kubectl apply -f https://github.com/knative/net-contour/releases/download/knative-v1.0.0/contour.yaml
 
-```$ kubectl apply -f https://github.com/knative/net-contour/releases/download/knative-v1.0.0/net-contour.yaml```
+$ kubectl apply -f https://github.com/knative/net-contour/releases/download/knative-v1.0.0/net-contour.yaml
+```
 
 ## Knative Serving to use Contour ##
 
+```
 $ kubectl patch configmap/config-contour \
   --namespace knative-serving \
   --type merge \
@@ -80,13 +87,14 @@ $ kubectl patch configmap/config-contour \
 $ kubectl get revisions, routes
 
 $ kubectl get ksvc
+```
 
 NAME       URL                                   LATESTCREATED   LATESTREADY    READY   REASON
 
 app-2-db   http://app-2-db.default.example.com   app-2-db-app    app-2-db-app   True
 
-$ URL=$(kubectl get ksvc <SERVICE_NAME> -o jsonpath='{.status.url}')
+```
+$ URL=$(kubectl get ksvc <KNATIVE_SERVICE_NAME> -o jsonpath='{.status.url}')
 
 $ curl -H "Host: $URL" http://localhost:8081
-
-![alt text](<PICTURE>?raw=true)
+```
