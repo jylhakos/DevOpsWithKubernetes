@@ -1,10 +1,11 @@
 **Automated Canary Releases**
-
-```$ kubectl apply -k github.com/fluxcd/flagger/kustomize/linkerd
+```
+$ kubectl apply -k github.com/fluxcd/flagger/kustomize/linkerd
 
 $ kubectl -n linkerd rollout status deploy/flagger
 
-$ kubectl -n todos-db-namespace get svc```
+$ kubectl -n todos-db-namespace get svc
+```
 
 NAME                           TYPE        CLUSTER-IP      EXTERNAL-IP   PORT(S)    AGE
 
