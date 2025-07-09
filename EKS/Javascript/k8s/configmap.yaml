@@ -1,0 +1,8 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: react-frontend-config
+  namespace: react-frontend
+data:
+  REACT_APP_BACKEND_URL: "http://backend-service:8000"
+  REACT_APP_ENV: "production"

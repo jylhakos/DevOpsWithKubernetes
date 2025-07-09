@@ -1,0 +1,20 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: react-frontend-ingress
+  annotations:
+    kubernetes.io/ingress.class: "gce"
+    kubernetes.io/ingress.global-static-ip-name: "react-frontend-ip"
+    networking.gke.io/managed-certificates: "react-frontend-ssl-cert"
+spec:
+  rules:
+  - host: your-domain.com  # Replace with your domain
+    http:
+      paths:
+      - path: /*
+        pathType: ImplementationSpecific
+        backend:
+          service:
+            name: react-frontend-service
+            port:
+              number: 80

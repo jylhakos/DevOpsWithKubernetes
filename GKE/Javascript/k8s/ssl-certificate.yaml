@@ -1,0 +1,7 @@
+apiVersion: networking.gke.io/v1
+kind: ManagedCertificate
+metadata:
+  name: react-frontend-ssl-cert
+spec:
+  domains:
+    - your-domain.com  # Replace with your domain

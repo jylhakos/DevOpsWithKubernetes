@@ -1,0 +1,30 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: go-app-ingress
+  namespace: go-app
+  annotations:
+    kubernetes.io/ingress.class: "gce"
+    kubernetes.io/ingress.global-static-ip-name: "go-app-ip"  # Optional: reserve static IP
+    networking.gke.io/managed-certificates: "go-app-ssl-cert"  # Optional: managed SSL
+spec:
+  rules:
+  - host: your-domain.com  # Replace with your domain
+    http:
+      paths:
+      - path: /
+        pathType: Prefix
+        backend:
+          service:
+            name: go-app-service
+            port:
+              number: 80
+  - http:  # Default backend for IP access
+      paths:
+      - path: /
+        pathType: Prefix
+        backend:
+          service:
+            name: go-app-service
+            port:
+              number: 80

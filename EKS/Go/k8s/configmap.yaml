@@ -1,0 +1,15 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: go-app-config
+  namespace: go-app
+data:
+  PORT: "8080"
+  REQUEST_ORIGIN: "http://localhost:5000"
+  # Add other environment variables as needed
+  REDIS_HOST: "redis-service"
+  REDIS_PORT: "6379"
+  POSTGRES_HOST: "postgres-service"
+  POSTGRES_PORT: "5432"
+  POSTGRES_DB: "myapp"
+  POSTGRES_USER: "myuser"

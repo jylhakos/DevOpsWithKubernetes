@@ -215,4 +215,3 @@ Data is encoded and framed as a message and sent by a publisher. The message is 
 To connect a NATS client application with a NATS service, and then subscribe or publish messages to subjects, it only needs to be configured with URL and Authentication.
 
 ![alt text](https://github.com/jylhakos/DevOpsWithKubernetes/blob/main/kubernetes.png?raw=true)
-

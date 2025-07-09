@@ -1,0 +1,7 @@
+Dockerfile
+.dockerignore
+.gitignore
+server
+README.md
+docker-compose.yml
+1.13.txt
