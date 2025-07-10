@@ -1,36 +1,24 @@
-#FROM ubuntu:18.04
-
-FROM node:16
+FROM node:16-alpine
 
 WORKDIR /usr/src/app
 
-RUN apt-get update \ 
-    && apt-get install -y npm \ 
-    && apt-get install -y curl \ 
-    && curl https://deb.nodesource.com/setup_16.x \ 
-    | apt-get install -y nodejs \ 
-    && node --version && npm --version
-
-#RUN npm install -g npm@8.4.1
-
+# Copy package files
 COPY package*.json ./
 
-#RUN npm install
+# Install dependencies
+RUN npm ci --only=production
 
-#RUN npm ci --only=production
-
-RUN npm ci
-
+# Copy source code
 COPY . .
 
-ENV REACT_APP_BACKEND_URL=http://localhost:8000
-
+# Build the application
 RUN npm run build
 
-COPY . .
-
+# Install serve to serve the built application
 RUN npm install -g serve
 
+# Expose port
 EXPOSE 5000
 
-CMD ["serve", "-s", "-l", "5000", "build"]
+# Start the application
+CMD ["serve", "-s", "build", "-l", "5000"]

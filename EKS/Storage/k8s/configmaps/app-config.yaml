@@ -1,0 +1,40 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: postgres-config
+  namespace: default
+data:
+  POSTGRES_DB: postgres
+  POSTGRES_USER: postgres
+  POSTGRES_HOST: postgres-service
+---
+apiVersion: v1
+kind: Secret
+metadata:
+  name: postgres-secret
+  namespace: default
+type: Opaque
+data:
+  POSTGRES_PASSWORD: cG9zdGdyZXM=  # base64 encoded "postgres"
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: backend-config
+  namespace: default
+data:
+  PORT: "8080"
+  REDIS_HOST: redis-service
+  REDIS_PORT: "6379"
+  POSTGRES_HOST: postgres-service
+  POSTGRES_USER: postgres
+  POSTGRES_DATABASE: postgres
+  REQUEST_ORIGIN: "https://your-domain.com"  # Update with your domain
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: frontend-config
+  namespace: default
+data:
+  REACT_APP_BACKEND_URL: "https://api.your-domain.com"  # Update with your API domain

@@ -1,0 +1,25 @@
+apiVersion: v1
+kind: Secret
+metadata:
+  name: postgres-secret
+  namespace: myapp-namespace
+type: Opaque
+data:
+  # postgres (base64 encoded)
+  POSTGRES_USER: cG9zdGdyZXM=
+  # postgres (base64 encoded)
+  POSTGRES_PASSWORD: cG9zdGdyZXM=
+  # postgres (base64 encoded)
+  POSTGRES_DB: cG9zdGdyZXM=
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: app-config
+  namespace: myapp-namespace
+data:
+  REDIS_HOST: "redis-service"
+  POSTGRES_HOST: "postgres-service"
+  POSTGRES_DATABASE: "postgres"
+  REQUEST_ORIGIN: "https://your-frontend-domain.com"
+  REACT_APP_BACKEND_URL: "https://your-backend-domain.com"

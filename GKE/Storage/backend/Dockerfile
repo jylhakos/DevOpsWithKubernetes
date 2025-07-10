@@ -1,27 +1,55 @@
-#FROM ubuntu:18.04
+# Multi-stage build for Go application
+FROM golang:1.19-alpine AS builder
 
-FROM golang:1.16-alpine
+# Install git and ca-certificates for fetching dependencies
+RUN apk add --no-cache git ca-certificates gcc musl-dev
 
-RUN mkdir /app
-
+# Set working directory
 WORKDIR /app
 
-RUN apk add --update --no-cache gcc libc-dev
+# Copy go mod files
+COPY go.mod go.sum ./
 
-COPY go.* ./
+# Download dependencies
+RUN go mod download
 
-RUN go get -v -d ./...
-
+# Copy source code
 COPY . .
 
-ENV PORT=8080
+# Build the application
+RUN CGO_ENABLED=1 GOOS=linux go build -a -installsuffix cgo -ldflags '-extldflags "-static"' -o server .
 
+# Final stage
+FROM alpine:latest
+
+# Install ca-certificates for HTTPS requests
+RUN apk --no-cache add ca-certificates curl
+
+# Create non-root user
+RUN addgroup -S appgroup && adduser -S appuser -G appgroup
+
+# Set working directory
+WORKDIR /app
+
+# Copy binary from builder stage
+COPY --from=builder /app/server .
+
+# Change ownership to non-root user
+RUN chown -R appuser:appgroup /app
+
+# Switch to non-root user
+USER appuser
+
+# Set environment variables
+ENV PORT=8080
 ENV REQUEST_ORIGIN=http://localhost:5000
 
-RUN go build -v -o ./server
-
-#RUN go test ./...
-
+# Expose port
 EXPOSE 8080
 
+# Health check
+HEALTHCHECK --interval=30s --timeout=3s --start-period=5s --retries=3 \
+    CMD curl -f http://localhost:8080/ping || exit 1
+
+# Run the application
 CMD ["./server"]
