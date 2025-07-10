@@ -1,0 +1,37 @@
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: typescript-app
+---
+apiVersion: v1
+kind: ResourceQuota
+metadata:
+  name: typescript-app-quota
+  namespace: typescript-app
+spec:
+  hard:
+    requests.cpu: "2"
+    requests.memory: 4Gi
+    limits.cpu: "4"
+    limits.memory: 8Gi
+    persistentvolumeclaims: "10"
+    pods: "20"
+    services: "10"
+---
+apiVersion: v1
+kind: LimitRange
+metadata:
+  name: typescript-app-limits
+  namespace: typescript-app
+spec:
+  limits:
+  - default:
+      cpu: "200m"
+      memory: "256Mi"
+    defaultRequest:
+      cpu: "100m"
+      memory: "128Mi"
+    type: Container
+  - default:
+      storage: "1Gi"
+    type: PersistentVolumeClaim

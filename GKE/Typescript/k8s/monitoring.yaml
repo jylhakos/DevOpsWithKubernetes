@@ -1,0 +1,110 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: monitoring-config
+  namespace: typescript-app
+data:
+  alerting.yml: |
+    groups:
+    - name: typescript-app-alerts
+      rules:
+      - alert: HighCPUUsage
+        expr: (sum by (pod) (rate(container_cpu_usage_seconds_total[5m])) * 100) > 80
+        for: 2m
+        labels:
+          severity: warning
+        annotations:
+          summary: "High CPU usage detected"
+          description: "Pod {{ $labels.pod }} is using {{ $value }}% CPU"
+      
+      - alert: HighMemoryUsage
+        expr: (sum by (pod) (container_memory_working_set_bytes) / sum by (pod) (container_spec_memory_limit_bytes) * 100) > 80
+        for: 2m
+        labels:
+          severity: warning
+        annotations:
+          summary: "High memory usage detected"
+          description: "Pod {{ $labels.pod }} is using {{ $value }}% memory"
+      
+      - alert: PodRestartFrequent
+        expr: increase(kube_pod_container_status_restarts_total[1h]) > 5
+        for: 0m
+        labels:
+          severity: critical
+        annotations:
+          summary: "Pod restarting frequently"
+          description: "Pod {{ $labels.pod }} has restarted {{ $value }} times in the last hour"
+      
+      - alert: ServiceDown
+        expr: up == 0
+        for: 1m
+        labels:
+          severity: critical
+        annotations:
+          summary: "Service is down"
+          description: "Service {{ $labels.instance }} is down"
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: prometheus
+  namespace: typescript-app
+  labels:
+    app: prometheus
+spec:
+  ports:
+  - port: 9090
+    targetPort: 9090
+    name: prometheus
+  selector:
+    app: prometheus
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: prometheus
+  namespace: typescript-app
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: prometheus
+  template:
+    metadata:
+      labels:
+        app: prometheus
+    spec:
+      containers:
+      - name: prometheus
+        image: prom/prometheus:latest
+        ports:
+        - containerPort: 9090
+        volumeMounts:
+        - name: config-volume
+          mountPath: /etc/prometheus
+        - name: storage-volume
+          mountPath: /prometheus
+        args:
+        - '--config.file=/etc/prometheus/prometheus.yml'
+        - '--storage.tsdb.path=/prometheus'
+        - '--web.console.libraries=/etc/prometheus/console_libraries'
+        - '--web.console.templates=/etc/prometheus/consoles'
+      volumes:
+      - name: config-volume
+        configMap:
+          name: monitoring-config
+      - name: storage-volume
+        emptyDir: {}
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: grafana-config
+  namespace: typescript-app
+data:
+  grafana.ini: |
+    [server]
+    http_port = 3000
+    [security]
+    admin_user = admin
+    admin_password = admin123
