@@ -1,0 +1,37 @@
+version: '3.8'
+
+services:
+  redis:
+    image: redis
+    container_name: redis
+    restart: unless-stopped
+  db:
+    image: postgres:13.2-alpine
+    restart: unless-stopped
+    environment:
+      POSTGRES_HOST: db
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_DATABASE: postgres
+    container_name: db
+  backend:
+    image: backend
+    container_name: backend
+    build: backend/.
+    ports:
+      - 8000:8080
+    environment:
+      REDIS_HOST: redis
+      POSTGRES_HOST: db
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_DATABASE: postgres
+    depends_on:
+      - redis
+      - db
+  frontend:
+    image: frontend
+    container_name: frontend
+    build: frontend/.
+    ports:
+      - 5000:5000

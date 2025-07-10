@@ -1,0 +1,86 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: ml-backend
+  namespace: ml-app
+  labels:
+    app: ml-backend
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: ml-backend
+  template:
+    metadata:
+      labels:
+        app: ml-backend
+    spec:
+      serviceAccountName: ml-service-account
+      containers:
+      - name: ml-backend
+        image: gcr.io/PROJECT_ID/ml-backend:latest
+        imagePullPolicy: Always
+        ports:
+        - containerPort: 5000
+          name: http
+        resources:
+          requests:
+            memory: "1Gi"
+            cpu: "500m"
+          limits:
+            memory: "2Gi"
+            cpu: "1000m"
+        env:
+        - name: GOOGLE_APPLICATION_CREDENTIALS
+          value: "/src/gcp-key.json"
+        envFrom:
+        - configMapRef:
+            name: ml-config
+        volumeMounts:
+        - name: model-storage
+          mountPath: /src/model
+          readOnly: true
+        - name: gcp-credentials
+          mountPath: /src/gcp-key.json
+          subPath: gcp-key.json
+          readOnly: true
+        livenessProbe:
+          httpGet:
+            path: /ping
+            port: 5000
+          initialDelaySeconds: 60
+          periodSeconds: 30
+          timeoutSeconds: 10
+          failureThreshold: 3
+        readinessProbe:
+          httpGet:
+            path: /ping
+            port: 5000
+          initialDelaySeconds: 30
+          periodSeconds: 10
+          timeoutSeconds: 5
+          failureThreshold: 3
+      volumes:
+      - name: model-storage
+        persistentVolumeClaim:
+          claimName: model-storage-pvc
+      - name: gcp-credentials
+        secret:
+          secretName: gcp-credentials
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: ml-backend-service
+  namespace: ml-app
+  labels:
+    app: ml-backend
+spec:
+  selector:
+    app: ml-backend
+  ports:
+  - port: 5000
+    targetPort: 5000
+    protocol: TCP
+    name: http
+  type: ClusterIP

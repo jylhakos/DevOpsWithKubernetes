@@ -1,0 +1,80 @@
+version: '3.8'
+
+services:
+  ml-training:
+    image: ml-training:latest
+    container_name: ml-training
+    build: 
+      context: ./ml-training
+      dockerfile: Dockerfile
+    volumes:
+      - model_data:/src/model
+      - training_data:/src/data
+      - images_data:/src/imgs
+    environment:
+      - PYTHONUNBUFFERED=1
+    networks:
+      - ml-network
+    restart: "no"  # Training job should run once
+    
+  ml-backend:
+    image: ml-backend:latest
+    container_name: ml-backend
+    build: 
+      context: ./ml-backend
+      dockerfile: Dockerfile
+    ports:
+      - "5000:5000"
+    volumes:
+      - model_data:/src/model:ro  # Read-only access to model
+    environment:
+      - FLASK_ENV=production
+      - FLASK_APP=app.py
+      - PYTHONUNBUFFERED=1
+    depends_on:
+      ml-training:
+        condition: service_completed_successfully
+    networks:
+      - ml-network
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:5000/ping"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 40s
+      
+  ml-frontend:
+    image: ml-frontend:latest
+    container_name: ml-frontend
+    build: 
+      context: ./ml-frontend
+      dockerfile: Dockerfile
+    ports:
+      - "3000:3000"
+    environment:
+      - REACT_APP_BACKEND_URL=http://localhost:5000
+    depends_on:
+      ml-backend:
+        condition: service_healthy
+    networks:
+      - ml-network
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "wget", "--no-verbose", "--tries=1", "--spider", "http://localhost:3000"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 40s
+
+volumes:
+  model_data:
+    driver: local
+  training_data:
+    driver: local
+  images_data:
+    driver: local
+
+networks:
+  ml-network:
+    driver: bridge

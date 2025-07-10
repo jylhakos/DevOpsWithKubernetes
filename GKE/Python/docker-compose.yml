@@ -1,0 +1,81 @@
+version: '3.8'
+
+services:
+  ml-training:
+    image: gcr.io/${PROJECT_ID}/ml-training:latest
+    container_name: ml-training
+    build: 
+      context: ./ml-training
+      dockerfile: Dockerfile
+    environment:
+      - GOOGLE_APPLICATION_CREDENTIALS=/src/gcp-key.json
+      - GOOGLE_CLOUD_PROJECT=${PROJECT_ID}
+    volumes:
+      - model-data:/src/model
+      - training-data:/src/data
+      - image-data:/src/imgs
+      - ./gcp-key.json:/src/gcp-key.json:ro
+    networks:
+      - ml-network
+    restart: "no"  # Training should run once
+    
+  ml-backend:
+    image: gcr.io/${PROJECT_ID}/ml-backend:latest
+    container_name: ml-backend
+    build: 
+      context: ./ml-backend
+      dockerfile: Dockerfile
+    ports:
+      - "5000:5000"
+    environment:
+      - GOOGLE_APPLICATION_CREDENTIALS=/src/gcp-key.json
+      - GOOGLE_CLOUD_PROJECT=${PROJECT_ID}
+      - FLASK_ENV=production
+      - MODEL_PATH=/src/model
+    volumes:
+      - model-data:/src/model:ro
+      - ./gcp-key.json:/src/gcp-key.json:ro
+    depends_on:
+      - ml-training
+    networks:
+      - ml-network
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:5000/ping"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 60s
+      
+  ml-frontend:
+    image: gcr.io/${PROJECT_ID}/ml-frontend:latest
+    container_name: ml-frontend
+    build: 
+      context: ./ml-frontend
+      dockerfile: Dockerfile
+    ports:
+      - "3000:3000"
+    environment:
+      - REACT_APP_API_URL=http://ml-backend:5000
+    depends_on:
+      - ml-backend
+    networks:
+      - ml-network
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "wget", "--no-verbose", "--tries=1", "--spider", "http://localhost:3000/"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+
+volumes:
+  model-data:
+    driver: local
+  training-data:
+    driver: local
+  image-data:
+    driver: local
+
+networks:
+  ml-network:
+    driver: bridge

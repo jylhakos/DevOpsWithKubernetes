@@ -1,0 +1,23 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: ml-config
+  namespace: ml-app
+data:
+  GOOGLE_CLOUD_PROJECT: "PROJECT_ID"
+  MODEL_PATH: "/src/model"
+  DATA_PATH: "/src/data"
+  IMAGE_PATH: "/src/imgs"
+  FLASK_ENV: "production"
+  REACT_APP_API_URL: "http://ml-backend-service:5000"
+---
+apiVersion: v1
+kind: Secret
+metadata:
+  name: gcp-credentials
+  namespace: ml-app
+type: Opaque
+data:
+  # Base64 encoded GCP service account key
+  # Replace with: cat gcp-key.json | base64 -w 0
+  gcp-key.json: ""

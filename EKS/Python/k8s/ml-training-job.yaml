@@ -1,0 +1,66 @@
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: ml-training-job
+  namespace: ml-pipeline
+  labels:
+    app: ml-training
+    component: training
+spec:
+  ttlSecondsAfterFinished: 86400  # Clean up after 24 hours
+  template:
+    metadata:
+      labels:
+        app: ml-training
+        component: training
+    spec:
+      restartPolicy: Never
+      containers:
+      - name: ml-training
+        image: your-ecr-repo/ml-training:latest  # Replace with your ECR repository
+        imagePullPolicy: Always
+        env:
+        - name: PYTHONUNBUFFERED
+          value: "1"
+        - name: MODEL_PATH
+          valueFrom:
+            configMapKeyRef:
+              name: ml-config
+              key: model-path
+        - name: DATA_PATH
+          valueFrom:
+            configMapKeyRef:
+              name: ml-config
+              key: data-path
+        - name: IMAGES_PATH
+          valueFrom:
+            configMapKeyRef:
+              name: ml-config
+              key: images-path
+        volumeMounts:
+        - name: model-storage
+          mountPath: /src/model
+        - name: training-data
+          mountPath: /src/data
+        - name: images-data
+          mountPath: /src/imgs
+        resources:
+          requests:
+            memory: "2Gi"
+            cpu: "1000m"
+          limits:
+            memory: "4Gi"
+            cpu: "2000m"
+      volumes:
+      - name: model-storage
+        persistentVolumeClaim:
+          claimName: model-storage-pvc
+      - name: training-data
+        persistentVolumeClaim:
+          claimName: training-data-pvc
+      - name: images-data
+        persistentVolumeClaim:
+          claimName: images-data-pvc
+      nodeSelector:
+        node.kubernetes.io/instance-type: m5.large  # Choose appropriate instance type
+  backoffLimit: 3

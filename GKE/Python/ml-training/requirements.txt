@@ -1,0 +1,10 @@
+tqdm
+numpy==1.19.5
+opencv-python==4.5.2.54
+opencv-python-headless==4.4.0.46
+pandas
+Pillow==8.3.0
+requests==2.25.1
+scikit-learn==0.24.2
+tensorflow==2.5.0
+

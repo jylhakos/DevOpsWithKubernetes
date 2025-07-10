@@ -1,0 +1,12 @@
+numpy
+flask
+python-dotenv
+flask-cors
+scipy
+tensorflow==2.5.0
+tensorflow-estimator==2.5.0
+Pillow==8.3.0
+requests
+opencv-python==4.5.2.54
+opencv-python-headless==4.4.0.46
+scikit-learn

@@ -1,0 +1,55 @@
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: ml-training-job
+  namespace: ml-app
+spec:
+  template:
+    metadata:
+      labels:
+        app: ml-training
+    spec:
+      serviceAccountName: ml-service-account
+      restartPolicy: Never
+      containers:
+      - name: ml-training
+        image: gcr.io/PROJECT_ID/ml-training:latest
+        imagePullPolicy: Always
+        resources:
+          requests:
+            memory: "2Gi"
+            cpu: "1000m"
+          limits:
+            memory: "4Gi"
+            cpu: "2000m"
+        env:
+        - name: GOOGLE_APPLICATION_CREDENTIALS
+          value: "/src/gcp-key.json"
+        envFrom:
+        - configMapRef:
+            name: ml-config
+        volumeMounts:
+        - name: model-storage
+          mountPath: /src/model
+        - name: training-data
+          mountPath: /src/data
+        - name: image-data
+          mountPath: /src/imgs
+        - name: gcp-credentials
+          mountPath: /src/gcp-key.json
+          subPath: gcp-key.json
+          readOnly: true
+      volumes:
+      - name: model-storage
+        persistentVolumeClaim:
+          claimName: model-storage-pvc
+      - name: training-data
+        persistentVolumeClaim:
+          claimName: training-data-pvc
+      - name: image-data
+        persistentVolumeClaim:
+          claimName: image-data-pvc
+      - name: gcp-credentials
+        secret:
+          secretName: gcp-credentials
+  backoffLimit: 2
